@@ -2,23 +2,54 @@ import { Vehicle } from "../models/vehicle";
 
 class VehicleRepository {
     private vehicleDatabase: Vehicle[] = [
-        new Vehicle("Gol", "Preto", "9BWZZZ377VT004251", "CAR", "ABC-123", 200),
-        new Vehicle("Uno", "Branco", "ZFA312000J0115977", "CAR", "DEF-456", 300),
-        new Vehicle("Fiesta", "Vermelho", "WF0EXXGBBEFS12345", "CAR", "GHI-789", 400),
-        new Vehicle("Celta", "Azul", "9BGRD68X07G123456", "CAR", "JKL-012", 250),
-        new Vehicle("Onix", "Prata", "KL1TG48EJEB123456", "CAR", "MNO-345", 350),
-        new Vehicle("HB20", "Amarelo", "94BTE48AHAZ123456", "CAR", "PQR-678", 280),
-        new Vehicle("Palio", "Verde", "8AP172000H1523523", "CAR", "STU-901", 320),
-        new Vehicle("Corsa", "Rosa", "93UZXW456YKL23456", "CAR", "VWX-234", 270),
-        new Vehicle("Fusca", "Laranja", "3VWRF31Y76M123456", "CAR", "YZA-567", 380),
-        new Vehicle("Fit", "Roxo", "MRHGD18504P123456", "CAR", "BCD-890", 310),
-        new Vehicle("CG 125", "Azul", "MOTO-111", "MOTORCYCLE", "EFG-111", 150),
-        new Vehicle("Titan 150", "Preto", "MOTO-222", "MOTORCYCLE", "HIJ-222", 180),
-        new Vehicle("CB 300", "Vermelho", "MOTO-333", "MOTORCYCLE", "KLM-333", 200),
-        new Vehicle("Falcon 400", "Amarelo", "MOTO-444", "MOTORCYCLE", "NOP-444", 220),
-        new Vehicle("Ninja 650", "Verde", "MOTO-555", "MOTORCYCLE", "QRS-555", 250)
+        new Vehicle('Fiat', 'Uno', 'Branco', 'ABC-1234', 100, 0.1),
+        new Vehicle('Fiat', 'Palio', 'Prata', 'DEF-5678', 70, 0.1),
+        new Vehicle('Fiat', 'Argo', 'Preto', 'GHI-9012', 85, 0.1),
+        new Vehicle('Fiat', 'Mobi', 'Vermelho', 'JKL-3456', 60, 0.1),
+        new Vehicle('Fiat', 'Toro', 'Azul', 'MNO-7890', 150, 0.1),
+        new Vehicle('Fiat', 'Cronos', 'Verde', 'PQR-1234', 80, 0.1),
+        new Vehicle('Fiat', 'Doblô', 'Amarelo', 'STU-5678', 120, 0.1),
+        new Vehicle('Fiat', 'Siena', 'Rosa', 'VWX-9012', 90, 0.1),
+        new Vehicle('Fiat', 'Strada', 'Roxo', 'YZA-3456', 130, 0.1),
+        new Vehicle('Fiat', 'Punto', 'Laranja', 'BCD-7890', 75, 0.1),
+        new Vehicle('Fiat', 'Cronos', 'Marrom', 'EFG-1234', 80, 0.1)
     ];
 
+    create(vehicle: Vehicle): Vehicle{
+        this.vehicleDatabase.push(vehicle);
+        return vehicle;
+    }
+
+    getAll(): Vehicle[]{
+        return this.vehicleDatabase;
+    }
+
+    getById(id: string): Vehicle | undefined{
+        return this.vehicleDatabase.find(vehicle => vehicle.id === id);
+    }
+
+    getByPlate(plate: string): Vehicle | undefined{
+        return this.vehicleDatabase.find(vehicle => vehicle.plate === plate);
+    }
+
+    update(vehicle: Vehicle): Vehicle | undefined{
+        const vehicleIndex = this.vehicleDatabase.findIndex(vehicle => vehicle.id === vehicle.id);
+        if(vehicleIndex === -1){
+            return undefined;
+        }
+        this.vehicleDatabase[vehicleIndex] = vehicle;
+        return this.vehicleDatabase[vehicleIndex];
+    }
+
+    delete(id: string): Vehicle | undefined{
+        const vehicleIndex = this.vehicleDatabase.findIndex(vehicle => vehicle.id === id);
+        if(vehicleIndex === -1){
+            return undefined;
+        }
+        const vehicle = this.vehicleDatabase[vehicleIndex];
+        this.vehicleDatabase.splice(vehicleIndex, 1);
+        return vehicle;
+    }
 }
 
 const vehicleRepository = new VehicleRepository();
