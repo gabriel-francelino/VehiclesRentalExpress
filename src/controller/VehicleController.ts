@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { Vehicle } from "../models/vehicle";
+import { Vehicle } from "../models/Vehicle";
 import { createVehicleService } from "../services/vehicle/CreateVehicleService";
 import { getAllVehicleService } from "../services/vehicle/GetAllVehicleService";
 import { getByIdVehicleService } from "../services/vehicle/GetByIdVehicleService";

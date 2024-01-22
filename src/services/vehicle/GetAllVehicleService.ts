@@ -1,4 +1,4 @@
-import { Vehicle } from "../../models/vehicle";
+import { Vehicle } from "../../models/Vehicle";
 import { vehicleRepository } from "../../repositories/VehicleRepository";
 
 class GetAllVehicleService {

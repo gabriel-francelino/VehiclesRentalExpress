@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 
-import { Customer } from "./customer";
-import { Vehicle } from "./vehicle";
+import { Customer } from "./Customer";
+import { Vehicle } from "./Vehicle";
 
 export interface Invoice {
     customerName: string;

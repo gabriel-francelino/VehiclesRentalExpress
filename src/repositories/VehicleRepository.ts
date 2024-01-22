@@ -1,4 +1,4 @@
-import { Vehicle } from "../models/vehicle";
+import { Vehicle } from "../models/Vehicle";
 
 class VehicleRepository {
     private vehicleDatabase: Vehicle[] = [

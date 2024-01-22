@@ -1,4 +1,4 @@
-import { Rent } from "../models/rent";
+import { Rent } from "../models/Rent";
 
 class RentRepository {
     private rent: Rent[] = [];
