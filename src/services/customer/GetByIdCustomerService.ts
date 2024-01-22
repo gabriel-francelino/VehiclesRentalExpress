@@ -1,4 +1,5 @@
-import { NotFound } from "../../error/Errors";
+import { StatusCodes } from "http-status-codes";
+import { AppError } from "../../error/AppError";
 import { Customer } from "../../models/Customer";
 import { customerRepository } from "../../repositories/CustomerRepository";
 
@@ -7,7 +8,7 @@ class GetByIdCustomerService {
         const customer = customerRepository.getById(id);
 
         if (!customer) {
-            throw new NotFound("Customer not found");
+            throw new AppError("Customer not found", StatusCodes.NOT_FOUND);
         }
 
         return customer;

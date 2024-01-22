@@ -1,6 +1,5 @@
 import { StatusCodes } from "http-status-codes";
 import { AppError } from "../../error/AppError";
-import { NotFound } from "../../error/Errors";
 import { vehicleRepository } from "../../repositories/VehicleRepository";
 
 class DeleteVehicleService {

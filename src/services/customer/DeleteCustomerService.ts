@@ -1,4 +1,5 @@
-import { NotFound } from "../../error/Errors";
+import { StatusCodes } from "http-status-codes";
+import { AppError } from "../../error/AppError";
 import { customerRepository } from "../../repositories/CustomerRepository";
 
 class DeleteCustomerService {
@@ -6,7 +7,7 @@ class DeleteCustomerService {
         const deletedCustomer = customerRepository.delete(id);
 
         if (!deletedCustomer) {
-            throw new NotFound("Customer not found");
+            throw new AppError("Customer not found", StatusCodes.NOT_FOUND);
         }
     }
 }

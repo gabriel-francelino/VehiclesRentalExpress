@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { NotFound } from "../error/Errors";
 import { AppError } from "../error/AppError";
 
 

@@ -1,4 +1,5 @@
-import { NotFound } from "../../error/Errors";
+import { StatusCodes } from "http-status-codes";
+import { AppError } from "../../error/AppError";
 import { Vehicle } from "../../models/Vehicle";
 import { vehicleRepository } from "../../repositories/VehicleRepository";
 
@@ -7,7 +8,7 @@ class GetByIdVehicleService {
         const vehicle = vehicleRepository.getById(id);
 
         if (!vehicle) {
-            throw new NotFound("Vehicle not found"); // implementar middleware 'appError'
+            throw new AppError("Vehicle not found", StatusCodes.NOT_FOUND); 
         }
 
         return vehicle;
