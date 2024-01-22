@@ -7,6 +7,7 @@ import { getAllVehicleService } from "../services/vehicle/GetAllVehicleService";
 import { getByIdVehicleService } from "../services/vehicle/GetByIdVehicleService";
 import { deleteVehicleService } from "../services/vehicle/DeleteVehicleService";
 import { getAvailableVehicleService } from "../services/vehicle/GetAvailableVehicleService";
+import { updateVehicleService } from "../services/vehicle/UpdateVehicleService";
 
 class VehicleController {
     create(req: Request, res: Response, next: NextFunction) {
@@ -53,7 +54,8 @@ class VehicleController {
     }
 
     update(req: Request, res: Response, next: NextFunction) {
-
+        const updatedVehicle = updateVehicleService.execute(req.body);
+        res.status(StatusCodes.OK).send(updatedVehicle);
     }
 
     delete(req: Request, res: Response, next: NextFunction) {
