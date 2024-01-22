@@ -20,7 +20,7 @@ Utilizando o projeto da locadora de veículos, implemente rotas utilizando [expr
 
 ## Apresentação
 
-- A apresentação ocorrerá durante a aula do dia 26/01/2024.
+- A apresentação ocorrerá durante a aula do dia 24/01/2024.
 - No dia da apresentação organize seu grupo para que o máximo possível de pessoas possa apresentar. A divisão da apresentação fica a critério do grupo.
 - A apresentação do trabalho deverá ser feita por meio do compartilhamento de tela, por isso prepare o ambiente em sua máquina para isso.
 - Não é necessário nenhum slide ou recurso externo ao projeto, mas o grupo poderá optar por utilizar caso julgue necessário.

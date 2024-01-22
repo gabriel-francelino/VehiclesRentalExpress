@@ -1,8 +1,11 @@
 import { Router } from "express";
 import { vehicleController } from "./controller/VehicleController";
 import { customerController } from "./controller/CustomerController";
+import { infoRequestMiddleware } from "./middlewares/InfoRequestMiddleware";
 
 const routes = Router();
+
+routes.use(infoRequestMiddleware.execute);
 
 routes.post('/vehicles',vehicleController.create);
 routes.get('/vehicles',vehicleController.getAll);
