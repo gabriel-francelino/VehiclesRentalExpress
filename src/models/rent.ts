@@ -3,25 +3,26 @@ import { v4 as uuid } from "uuid";
 import { Customer } from "./Customer";
 import { Vehicle } from "./Vehicle";
 
-export interface Invoice {
-    customerName: string;
-    customerCpf: string;
-    customerCnh: string;
-    vehiclePlate: string;
-    vehicleType: string;
-    vehicleModel: string;
-    vehicleRental: number;
-    rentalDate: Date;
-    devolutionDate: Date;
-    valueRental: number;
-}
+// export interface Invoice {
+//     customerName: string;
+//     customerCpf: string;
+//     customerCnh: string;
+//     vehiclePlate: string;
+//     vehicleType: string;
+//     vehicleModel: string;
+//     vehicleRental: number;
+//     rentalDate: Date;
+//     devolutionDate: Date;
+//     rentalValue: number;
+// }
+
 export class Rent {
     private _id: string;
     private _customer: Customer;
     private _vehicle: Vehicle;
     private _rentalDate: Date;
     private _devolutionDate: Date;
-    private _valueRental: number;
+    private _rentalValue: number;
 
     constructor(customer: Customer, vehicle: Vehicle, rentalDate: Date, devolutionDate: Date) {
         this._id = uuid();
@@ -29,7 +30,7 @@ export class Rent {
         this._vehicle = vehicle;
         this._rentalDate = rentalDate;
         this._devolutionDate = devolutionDate;
-        this._valueRental = 0;
+        this._rentalValue = 0.0;
     }
 
     get id(): string {
@@ -52,12 +53,8 @@ export class Rent {
         return this._devolutionDate;
     }
 
-    get valueRental(): number {
-        return this._valueRental;
-    }
-
-    set id(id: string) {
-        this._id = id;
+    get rentalValue(): number {
+        return this._rentalValue;
     }
 
     set customer(customer: Customer) {
@@ -76,7 +73,7 @@ export class Rent {
         this._devolutionDate = devolutionDate;
     }
 
-    set valueRental(valueRental: number) {
-        this._valueRental = valueRental;
+    set rentalValue(rentalValue: number) {
+        this._rentalValue = rentalValue;
     }
 }

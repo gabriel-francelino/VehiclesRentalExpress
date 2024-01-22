@@ -7,7 +7,6 @@ class InfoRequestMiddleware {
         console.log(`Method: ${req.method}`);
         console.log(`URL: ${req.url}`);
         console.log('Headers:', req.headers);
-        console.log('Request Body:', req.body);
         next();
     }
 }
