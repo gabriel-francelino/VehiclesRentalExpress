@@ -1,15 +1,15 @@
 import { StatusCodes } from "http-status-codes";
-import { RentDTO } from "../../dto/RentDTO";
+import { RentalDTO } from "../../dto/RentalDTO";
 import { AppError } from "../../error/AppError";
-import { Rent } from "../../models/Rent";
+import { Rental } from "../../models/Rental";
 import { customerRepository } from "../../repositories/CustomerRepository";
 import { vehicleRepository } from "../../repositories/VehicleRepository";
-import { rentRepository } from "../../repositories/RentRepository";
+import { rentalRepository } from "../../repositories/RentalRepository";
 import { differenceInDays, parseISO } from "date-fns";
 
-class CreateRentService {
-    execute(rentDTO: RentDTO): Rent {
-        const { customerCpf, vehiclePlate, rentalDate, devolutionDate } = rentDTO;
+class CreateRentalService {
+    execute(rentalDTO: RentalDTO): Rental {
+        const { customerCpf, vehiclePlate, rentalDate, devolutionDate } = rentalDTO;
 
         const customer = customerRepository.getByCpf(customerCpf);
 
@@ -25,13 +25,13 @@ class CreateRentService {
 
         customer.hasRent = true;
         vehicle.rented = true;
-        const rent = new Rent(customer, vehicle, rentalDate, devolutionDate); 
+        const rent = new Rental(customer, vehicle, rentalDate, devolutionDate); 
         rent.rentalValue = this.calculateRentalValue(rent);
 
-        return rentRepository.create(rent);
+        return rentalRepository.create(rent);
     }
 
-    private calculateRentalValue({ vehicle, rentalDate, devolutionDate }: Rent): number {
+    private calculateRentalValue({ vehicle, rentalDate, devolutionDate }: Rental): number {
         const rentalDays = differenceInDays(devolutionDate, rentalDate);
         const vehicleRentalValue = vehicle.dailyRental * rentalDays;
         
@@ -39,6 +39,6 @@ class CreateRentService {
     }
 }
 
-const createRentService = new CreateRentService();
+const createRentalService = new CreateRentalService();
 
-export { createRentService };
+export { createRentalService };

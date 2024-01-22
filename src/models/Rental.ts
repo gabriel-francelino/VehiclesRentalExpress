@@ -16,7 +16,7 @@ import { Vehicle } from "./Vehicle";
 //     rentalValue: number;
 // }
 
-export class Rent {
+export class Rental {
     private _id: string;
     private _customer: Customer;
     private _vehicle: Vehicle;
