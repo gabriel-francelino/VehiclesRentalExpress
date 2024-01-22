@@ -2,17 +2,17 @@ import { Vehicle } from "../models/Vehicle";
 
 class VehicleRepository {
     private vehicleDatabase: Vehicle[] = [
-        new Vehicle('Fiat', 'Uno', 'Branco', 'ABC-1234', 100, 0.1),
-        new Vehicle('Fiat', 'Palio', 'Prata', 'DEF-5678', 70, 0.1),
-        new Vehicle('Fiat', 'Argo', 'Preto', 'GHI-9012', 85, 0.1),
-        new Vehicle('Fiat', 'Mobi', 'Vermelho', 'JKL-3456', 60, 0.1),
-        new Vehicle('Fiat', 'Toro', 'Azul', 'MNO-7890', 150, 0.1),
-        new Vehicle('Fiat', 'Cronos', 'Verde', 'PQR-1234', 80, 0.1),
-        new Vehicle('Fiat', 'Doblô', 'Amarelo', 'STU-5678', 120, 0.1),
-        new Vehicle('Fiat', 'Siena', 'Rosa', 'VWX-9012', 90, 0.1),
-        new Vehicle('Fiat', 'Strada', 'Roxo', 'YZA-3456', 130, 0.1),
-        new Vehicle('Fiat', 'Punto', 'Laranja', 'BCD-7890', 75, 0.1),
-        new Vehicle('Fiat', 'Cronos', 'Marrom', 'EFG-1234', 80, 0.1)
+        new Vehicle('Fiat', 'Uno', 'Branco', 'ABC-1234', 100.0, 0.1),
+        new Vehicle('Fiat', 'Palio', 'Prata', 'DEF-5678', 70.0, 0.1),
+        new Vehicle('Fiat', 'Argo', 'Preto', 'GHI-9012', 85.0, 0.1),
+        new Vehicle('Fiat', 'Mobi', 'Vermelho', 'JKL-3456', 60.0, 0.1),
+        new Vehicle('Fiat', 'Toro', 'Azul', 'MNO-7890', 150.0, 0.1),
+        new Vehicle('Fiat', 'Cronos', 'Verde', 'PQR-1234', 80.0, 0.1),
+        new Vehicle('Fiat', 'Doblô', 'Amarelo', 'STU-5678', 120.0, 0.1),
+        new Vehicle('Fiat', 'Siena', 'Rosa', 'VWX-9012', 90.0, 0.1),
+        new Vehicle('Fiat', 'Strada', 'Roxo', 'YZA-3456', 130.0, 0.1),
+        new Vehicle('Fiat', 'Punto', 'Laranja', 'BCD-7890', 75.0, 0.1),
+        new Vehicle('Fiat', 'Cronos', 'Marrom', 'EFG-1234', 80.0, 0.1)
     ];
 
     create(vehicle: Vehicle): Vehicle{

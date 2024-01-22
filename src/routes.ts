@@ -3,6 +3,7 @@ import { vehicleController } from "./controller/VehicleController";
 import { customerController } from "./controller/CustomerController";
 import { infoRequestMiddleware } from "./middlewares/InfoRequestMiddleware";
 import { errorHandlerMiddleware } from "./middlewares/ErrorHandlerMiddleware";
+import { rentController } from "./controller/RentController";
 
 const routes = Router();
 
@@ -20,6 +21,8 @@ routes.get('/customers/id/:id',customerController.getById);
 routes.get('/customers/cpf/:cpf',customerController.getByCpf);
 routes.put('/customers/:id',() => {});
 routes.delete('/customers/:id',customerController.delete); // trocar para deletar por cpf
+
+routes.post('/rents', rentController.create);
 
 routes.use(errorHandlerMiddleware.execute);
 
