@@ -4,6 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { Rental } from "../models/Rental";
 import { createRentalService } from "../services/rental/CreateRentalService";
 import { devolutionRentalService } from "../services/rental/DevolutionRentalService";
+import { getAllRentalService } from "../services/rental/GetAllRentalService";
 
 class RentalController {
     create(req: Request, res: Response, next: NextFunction) {
@@ -11,6 +12,16 @@ class RentalController {
             const rental: RentalDTO = req.body;
             const newRental: Rental = createRentalService.execute(rental);
             res.status(StatusCodes.CREATED).send(newRental);
+            next();
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    getAll(req: Request, res: Response, next: NextFunction) {
+        try {
+            const rental: Rental[] = getAllRentalService.execute();
+            res.status(StatusCodes.OK).send(rental);
             next();
         } catch (error) {
             next(error);

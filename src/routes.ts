@@ -23,6 +23,7 @@ routes.put('/customers/:id',() => {});
 routes.delete('/customers/:id',customerController.delete); // trocar para deletar por cpf
 
 routes.post('/rents', rentalController.create);
+routes.get('/rents', rentalController.getAll);
 routes.delete('/rents/:id', rentalController.devolution);
 
 routes.use(errorHandlerMiddleware.execute);
