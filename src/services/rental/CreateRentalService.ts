@@ -32,10 +32,11 @@ class CreateRentalService {
     }
 
     private calculateRentalValue({ vehicle, rentalDate, devolutionDate }: Rental): number {
-        const rentalDays = differenceInDays(devolutionDate, rentalDate);
-        const vehicleRentalValue = vehicle.dailyRental * rentalDays;
+        const rentalDays: number = differenceInDays(devolutionDate, rentalDate);
+        const rentalValue: number = vehicle.dailyRental * rentalDays;
+        const increase: number = rentalValue * vehicle.increasePorcentage;
         
-        return vehicleRentalValue * vehicle.increasePorcentage;
+        return rentalValue + increase;
     }
 }
 
