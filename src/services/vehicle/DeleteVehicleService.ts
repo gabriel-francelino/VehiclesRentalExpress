@@ -1,4 +1,6 @@
-import { NotFound } from "../../error/errors";
+import { StatusCodes } from "http-status-codes";
+import { AppError } from "../../error/AppError";
+import { NotFound } from "../../error/Errors";
 import { vehicleRepository } from "../../repositories/VehicleRepository";
 
 class DeleteVehicleService {
@@ -6,7 +8,7 @@ class DeleteVehicleService {
         const vehicle = vehicleRepository.getById(id);
 
         if (!vehicle) {
-            throw new NotFound("Vehicle not found");
+            throw new AppError("Vehicle not found", StatusCodes.NOT_FOUND);
         }
 
         vehicleRepository.delete(id);

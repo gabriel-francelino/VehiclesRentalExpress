@@ -1,6 +1,6 @@
 import { differenceInDays } from 'date-fns'
 import { Customer } from '../customer'
-import { BadRequest, DataInvalid, NotFound } from '../error/errors'
+import { BadRequest, DataInvalid, NotFound } from '../error/Errors'
 import { Vehicle } from '../vehicle'
 
 // TODO

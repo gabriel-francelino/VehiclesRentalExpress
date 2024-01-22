@@ -1,41 +1,50 @@
-export class AlreadyRegistered extends Error {
+class AlreadyRegistered extends Error {
     constructor(message = 'Cadastrado em duplicidade') {
         super(message)
         this.name = 'AlreadyRegistered'
     }
 }
 
-export class NotFound extends Error {
-    constructor(message = 'Não encontrado') {
+class NotFound extends Error {
+    constructor(message = 'Not found') {
         super(message)
         this.name = 'NotFound'
     }
 }
 
-export class DataInvalid extends Error {
+class DataInvalid extends Error {
     constructor(message = 'Dado inválido') {
         super(message)
         this.name = 'DataInvalid'
     }
 }
 
-export class BadRequest extends Error {
+class BadRequest extends Error {
     constructor(message = 'Solicitação inválida') {
         super(message)
         this.name = 'BadRequest'
     }
 }
 
-export class InternalServer extends Error {
+class InternalServer extends Error {
     constructor(message = 'Erro no servidor') {
         super(message)
         this.name = 'InternalServer'
     }
 }
 
-export class DifferenceBetweenDate extends Error {
+class DifferenceBetweenDate extends Error {
     constructor(message = 'Diferença entre datas deve ser maior que 0(zero)') {
         super(message)
         this.name = 'DifferenceBetweenDate'
     }
+}
+
+export {
+    AlreadyRegistered,
+    NotFound,
+    DataInvalid,
+    BadRequest,
+    InternalServer,
+    DifferenceBetweenDate
 }

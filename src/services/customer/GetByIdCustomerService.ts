@@ -1,4 +1,4 @@
-import { NotFound } from "../../error/errors";
+import { NotFound } from "../../error/Errors";
 import { Customer } from "../../models/Customer";
 import { customerRepository } from "../../repositories/CustomerRepository";
 

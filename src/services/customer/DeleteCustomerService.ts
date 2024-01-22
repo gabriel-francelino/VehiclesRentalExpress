@@ -1,4 +1,4 @@
-import { NotFound } from "../../error/errors";
+import { NotFound } from "../../error/Errors";
 import { customerRepository } from "../../repositories/CustomerRepository";
 
 class DeleteCustomerService {

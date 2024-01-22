@@ -31,9 +31,14 @@ class VehicleController {
     }
 
     delete(req: Request, res: Response, next: NextFunction) {
-        const { id } = req.params;
-        deleteVehicleService.execute(id);
-        res.status(StatusCodes.NO_CONTENT).send();
+        try {
+            const { id } = req.params;
+            deleteVehicleService.execute(id);
+            res.status(StatusCodes.NO_CONTENT).send();
+            next();
+        } catch (error) {
+            next(error);
+        }
     }
 }
 
