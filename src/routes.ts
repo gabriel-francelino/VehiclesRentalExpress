@@ -10,7 +10,7 @@ routes.get('/vehicles/:id',vehicleController.getById);
 routes.put('/vehicles/:id',() => {});
 routes.delete('/vehicles/:id',vehicleController.delete); // trocar para deletar por placa
 
-routes.post('/customers',() => {});
+routes.post('/customers',customerController.create);
 routes.get('/customers',customerController.getAll);
 routes.get('/customers/id/:id',customerController.getById);
 routes.get('/customers/cpf/:cpf',customerController.getByCpf);

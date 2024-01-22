@@ -4,22 +4,31 @@ import { getAllCustomerService } from "../services/customer/GetAllCustomerServic
 import { getByIdCustomerService } from "../services/customer/GetByIdCustomerService";
 import { getByCpfCustomerService } from "../services/customer/GetByCpfCustomerService";
 import { deleteCustomerService } from "../services/customer/DeleteCustomerService";
+import { createCustomerService } from "../services/customer/CreateCustomerService";
+import { Customer } from "../models/Customer";
 
 class CustomerController {
+    create(req: Request, res: Response, next: NextFunction) {
+        const {cpf, name, dateOfBirth, driverLicense } = req.body;
+        const customer = new Customer(cpf, name, dateOfBirth, driverLicense);
+        const createdCustomer = createCustomerService.execute(customer);
+        res.status(StatusCodes.CREATED).send(createdCustomer);
+    }
+
     getAll(req: Request, res: Response, next: NextFunction) {
-        const customers = getAllCustomerService.execute();
+        const customers: Customer[] = getAllCustomerService.execute();
         res.status(StatusCodes.OK).send(customers);
     }
 
     getById(req: Request, res: Response, next: NextFunction) {
         const { id } = req.params;
-        const customer = getByIdCustomerService.execute(id);
+        const customer: Customer = getByIdCustomerService.execute(id);
         res.status(StatusCodes.OK).send(customer);
     }
 
     getByCpf(req: Request, res: Response, next: NextFunction) {
         const { cpf } = req.params;
-        const customer = getByCpfCustomerService.execute(cpf);
+        const customer: Customer = getByCpfCustomerService.execute(cpf);
         res.status(StatusCodes.OK).send(customer);
     }
 
