@@ -43,12 +43,12 @@ This is a simple API for a vehicles rental service. It allows you to create, rea
     ```
 - `DELETE /vehicles/:id` - Delete a vehicle by id
 
-### Users
+### Customers
 
-- `GET /users` - Get all users
-- `GET /users/:id` - Get a user by id
-- `GET /users/:cpf` - Get a user by cpf
-- `POST /users` - Create a new user
+- `GET /customers` - Get all customers
+- `GET /customers/:id` - Get a customer by id
+- `GET /customers/:cpf` - Get a customer by cpf
+- `POST /customers` - Create a new customer
     ```json
     {
         "cpf": "12345678901",
@@ -57,8 +57,8 @@ This is a simple API for a vehicles rental service. It allows you to create, rea
         "driverLicense": "B"
     }
     ```
-- `PUT /users` - Update a user
-- `DELETE /users/:id` - Delete a user by id
+- `PUT /customers` - Update a customer
+- `DELETE /customers/:id` - Delete a customer by id
 
 ### Rentals
 
