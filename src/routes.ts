@@ -10,6 +10,7 @@ const routes = Router();
 routes.use(infoRequestMiddleware.execute);
 
 routes.post('/vehicles',vehicleController.create);
+routes.get('/vehicles/available',vehicleController.getAvailable);
 routes.get('/vehicles',vehicleController.getAll);
 routes.get('/vehicles/:id',vehicleController.getById);
 routes.put('/vehicles/:id',() => {});
