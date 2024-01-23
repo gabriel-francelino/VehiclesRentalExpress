@@ -10,6 +10,10 @@ class DeleteVehicleService {
             throw new AppError("Vehicle not found", StatusCodes.NOT_FOUND);
         }
 
+        if (vehicle.rented) {
+            throw new AppError("It is not possible to delete rented vehicles", StatusCodes.BAD_REQUEST);
+        }
+
         vehicleRepository.delete(id);
     }
 }
