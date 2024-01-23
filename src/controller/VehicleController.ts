@@ -12,8 +12,8 @@ import { updateVehicleService } from "../services/vehicle/UpdateVehicleService";
 class VehicleController {
     create(req: Request, res: Response, next: NextFunction) {
         try {
-            const { model, color, type, plate, dailyRental, increasePorcentage } = req.body;
-            const vehicle = new Vehicle(model, color, type, plate, dailyRental, increasePorcentage);
+            const { model, color, type, plate, dailyRental } = req.body;
+            const vehicle = new Vehicle(model, color, type, plate, dailyRental);
             const newVehicle = createVehicleService.execute(vehicle);
             res.status(StatusCodes.CREATED).send(newVehicle);
             next();

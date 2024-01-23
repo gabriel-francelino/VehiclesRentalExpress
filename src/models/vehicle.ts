@@ -10,7 +10,7 @@ export class Vehicle {
   private _rented: boolean;
   private _increasePorcentage: number;
 
-  constructor(model: string, color: string, type: string, plate: string, dailyRental: number, increasePorcentage: number) {
+  constructor(model: string, color: string, type: string, plate: string, dailyRental: number) {
     this._id = uuid();
     this._model = model;
     this._color = color;
@@ -18,7 +18,7 @@ export class Vehicle {
     this._plate = plate;
     this._dailyRental = dailyRental;
     this._rented = false;
-    this._increasePorcentage = increasePorcentage;
+    this._increasePorcentage = type === 'car' ? 0.1 : 0.05;
   }
   
   get id(): string {
