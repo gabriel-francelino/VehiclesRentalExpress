@@ -34,7 +34,7 @@ class VehicleRepository {
     }
 
     update(vehicle: Vehicle): Vehicle | undefined {
-        const vehicleIndex = this.vehicleDatabase.findIndex(vehicle => vehicle.id === vehicle.id);
+        const vehicleIndex = this.vehicleDatabase.findIndex(vehicleDB => vehicleDB.id === vehicle.id);
         if (vehicleIndex === -1) {
             return undefined;
         }

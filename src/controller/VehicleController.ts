@@ -16,7 +16,7 @@ class VehicleController {
             const vehicle = new Vehicle(model, color, type, plate, dailyRental);
             const newVehicle = createVehicleService.execute(vehicle);
             res.status(StatusCodes.CREATED).send(newVehicle);
-            next();
+            // next();
         } catch (error) {
             next(error);
         }
@@ -47,15 +47,19 @@ class VehicleController {
             const { id } = req.params;
             const vehicle = getByIdVehicleService.execute(id);
             res.status(StatusCodes.OK).send(vehicle);
-            next();
+            // next();
         } catch (error) {
             next(error);
         }
     }
 
     update(req: Request, res: Response, next: NextFunction) {
-        const updatedVehicle = updateVehicleService.execute(req.body);
-        res.status(StatusCodes.OK).send(updatedVehicle);
+        try {
+            const updatedVehicle = updateVehicleService.execute(req.body);
+            res.status(StatusCodes.OK).send(updatedVehicle);
+        } catch (error) {
+            next(error);
+        }
     }
 
     delete(req: Request, res: Response, next: NextFunction) {
@@ -63,7 +67,7 @@ class VehicleController {
             const { id } = req.params;
             deleteVehicleService.execute(id);
             res.status(StatusCodes.NO_CONTENT).send();
-            next();
+            // next();
         } catch (error) {
             next(error);
         }
