@@ -28,7 +28,7 @@ class RentalController {
         }
     }
 
-    devolution(req: Request, res: Response, next: NextFunction) {
+    return(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
             devolutionRentalService.execute(id);

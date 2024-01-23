@@ -25,7 +25,7 @@ routes.delete('/customers/:id', customerController.delete); // trocar para delet
 
 routes.post('/rents', rentalController.create);
 routes.get('/rents', rentalController.getAll);
-routes.delete('/rents/:id', rentalController.devolution);
+routes.delete('/rents/:id', rentalController.return);
 
 routes.use(errorHandlerMiddleware.execute);
 
