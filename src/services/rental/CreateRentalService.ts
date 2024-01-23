@@ -13,6 +13,8 @@ class CreateRentalService {
 
         const customer = customerRepository.getByCpf(customerCpf);
 
+        // separar as validações em um arquivo separado
+
         if (!customer) {
             throw new AppError("Customer not found", StatusCodes.NOT_FOUND);
         }
@@ -21,6 +23,26 @@ class CreateRentalService {
 
         if (!vehicle) {
             throw new AppError("Vehicle not found", StatusCodes.NOT_FOUND);
+        }
+
+        if (vehicle.rented) {
+            throw new AppError("Vehicle already rented", StatusCodes.BAD_REQUEST);
+        }
+
+        if (customer.hasRent) {
+            throw new AppError("Customer already has a rent", StatusCodes.BAD_REQUEST);
+        }
+
+        if (rentalDate > devolutionDate) {
+            throw new AppError("Invalid rental date", StatusCodes.BAD_REQUEST);
+        }
+
+        if (customer.driverLicense === 'A' && vehicle.type !== 'motorcycle') {
+            throw new AppError("People with driver license 'A' can rent motorcycles only", StatusCodes.BAD_REQUEST);
+        }
+
+        if (customer.driverLicense === 'B' && vehicle.type === 'motorcycle') {
+            throw new AppError("People with driver license 'B' can rent cars only", StatusCodes.BAD_REQUEST);
         }
 
         customer.hasRent = true;
