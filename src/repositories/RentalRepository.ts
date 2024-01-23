@@ -23,8 +23,6 @@ class RentalRepository {
     getByVehiclePlate(vehiclePlate: string): Rental[] {
         return this.rental.filter(rental => rental.vehicle.plate === vehiclePlate);
     }
-
-    // getInvoice
 }
 
 const rentalRepository = new RentalRepository();

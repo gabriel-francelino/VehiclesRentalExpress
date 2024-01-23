@@ -3,18 +3,18 @@ import { v4 as uuid } from "uuid";
 import { Customer } from "./Customer";
 import { Vehicle } from "./Vehicle";
 
-// export interface Invoice {
-//     customerName: string;
-//     customerCpf: string;
-//     customerCnh: string;
-//     vehiclePlate: string;
-//     vehicleType: string;
-//     vehicleModel: string;
-//     vehicleRental: number;
-//     rentalDate: Date;
-//     devolutionDate: Date;
-//     rentalValue: number;
-// }
+export interface Invoice {
+    customerName: string;
+    customerCpf: string;
+    customerCnh: string;
+    vehiclePlate: string;
+    vehicleType: string;
+    vehicleModel: string;
+    vehicleRental: number;
+    rentalDate: Date;
+    devolutionDate: Date;
+    rentalValue: number;
+}
 
 export class Rental {
     private _id: string;
