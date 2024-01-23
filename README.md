@@ -32,13 +32,12 @@ This is a simple API for a vehicles rental service. It allows you to create, rea
     ```json
     {
         "id": "d10acca1-8814-4c32-b9dc-a65ab499de46",
-        "model": "Fiat",
-        "color": "Uno",
-        "type": "Vermelha",
+        "model": "Fiat Uno",
+        "color": "Vermelho",
+        "type": "car",
         "plate": "ABC-1234",
         "dailyRental": 60,
-        "rented": false,
-        "increasePorcentage": 0.1
+        "rented": false
     }
     ```
 - `DELETE /vehicles/:id` - Delete a vehicle by id
