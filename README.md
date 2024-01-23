@@ -62,6 +62,7 @@ This is a simple API for a vehicles rental service. It allows you to create, rea
 ### Rentals
 
 - `GET /rents` - Get all rents
+- `GET /rents/:id/invoice` - Get a rental invoice by id
 - `POST /rents` - Create a new rental
     ```json
     {
