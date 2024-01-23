@@ -2,48 +2,49 @@ import { Vehicle } from "../models/Vehicle";
 
 class VehicleRepository {
     private vehicleDatabase: Vehicle[] = [
-        new Vehicle('Fiat', 'Uno', 'Branco', 'ABC-1234', 100.0, 0.1),
-        new Vehicle('Fiat', 'Palio', 'Prata', 'DEF-5678', 70.0, 0.1),
-        new Vehicle('Fiat', 'Argo', 'Preto', 'GHI-9012', 85.0, 0.1),
-        new Vehicle('Fiat', 'Mobi', 'Vermelho', 'JKL-3456', 60.0, 0.1),
-        new Vehicle('Fiat', 'Toro', 'Azul', 'MNO-7890', 150.0, 0.1),
-        new Vehicle('Fiat', 'Cronos', 'Verde', 'PQR-1234', 80.0, 0.1),
-        new Vehicle('Fiat', 'Doblô', 'Amarelo', 'STU-5678', 120.0, 0.1),
-        new Vehicle('Fiat', 'Siena', 'Rosa', 'VWX-9012', 90.0, 0.1),
-        new Vehicle('Fiat', 'Strada', 'Roxo', 'YZA-3456', 130.0, 0.1),
-        new Vehicle('Fiat', 'Punto', 'Laranja', 'BCD-7890', 75.0, 0.1),
-        new Vehicle('Fiat', 'Cronos', 'Marrom', 'EFG-1234', 80.0, 0.1)
+        new Vehicle('Fiat Doblô', 'Branco', 'car', 'HIJ-5678', 120.0, 0.1),
+        new Vehicle('Fiat Uno', 'Preto', 'car', 'ABC-1234', 100.0, 0.1),
+        new Vehicle('Fiat Uno', 'Prata', 'car', 'DEF-5678', 100.0, 0.1),
+        new Vehicle('Kawasaki Ninja', 'Verde', 'motorcycle', 'KAW-1234', 200.0, 0.5),
+        new Vehicle('Kawasaki Ninja', 'Azul', 'motorcycle', 'KAW-5678', 200.0, 0.5),
+        new Vehicle('Chevrolet Onix', 'Vermelho', 'car', 'GMX-4321', 110.0, 0.01),
+        new Vehicle('Honda CB500', 'Amarela', 'motorcycle', 'HON-9876', 180.0, 0.05),
+        new Vehicle('Toyota Corolla', 'Prata', 'car', 'TYY-5678', 130.0, 0.1),
+        new Vehicle('Suzuki GSX-R750', 'Azul', 'motorcycle', 'SUZ-6789', 220.0, 0.05),
+        new Vehicle('Volkswagen Gol', 'Preto', 'car', 'VWZ-8765', 115.0, 0.1),
+        new Vehicle('Harley-Davidson Sportster', 'Cinza', 'motorcycle', 'HDR-3456', 160.0, 0.05),
+
     ];
 
-    create(vehicle: Vehicle): Vehicle{
+    create(vehicle: Vehicle): Vehicle {
         this.vehicleDatabase.push(vehicle);
         return vehicle;
     }
 
-    getAll(): Vehicle[]{
+    getAll(): Vehicle[] {
         return this.vehicleDatabase;
     }
 
-    getById(id: string): Vehicle | undefined{
+    getById(id: string): Vehicle | undefined {
         return this.vehicleDatabase.find(vehicle => vehicle.id === id);
     }
 
-    getByPlate(plate: string): Vehicle | undefined{
+    getByPlate(plate: string): Vehicle | undefined {
         return this.vehicleDatabase.find(vehicle => vehicle.plate === plate);
     }
 
-    update(vehicle: Vehicle): Vehicle | undefined{
+    update(vehicle: Vehicle): Vehicle | undefined {
         const vehicleIndex = this.vehicleDatabase.findIndex(vehicle => vehicle.id === vehicle.id);
-        if(vehicleIndex === -1){
+        if (vehicleIndex === -1) {
             return undefined;
         }
         this.vehicleDatabase[vehicleIndex] = vehicle;
         return this.vehicleDatabase[vehicleIndex];
     }
 
-    delete(id: string): Vehicle | undefined{
+    delete(id: string): Vehicle | undefined {
         const vehicleIndex = this.vehicleDatabase.findIndex(vehicle => vehicle.id === id);
-        if(vehicleIndex === -1){
+        if (vehicleIndex === -1) {
             return undefined;
         }
         const vehicle = this.vehicleDatabase[vehicleIndex];
