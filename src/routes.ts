@@ -14,14 +14,14 @@ routes.post('/vehicles', validateVehicleData, vehicleController.create);
 routes.get('/vehicles/available', vehicleController.getAvailable);
 routes.get('/vehicles', vehicleController.getAll);
 routes.get('/vehicles/:id', vehicleController.getById);
-routes.put('/vehicles', vehicleController.update);
+routes.patch('/vehicles', validateVehicleData, vehicleController.update);
 routes.delete('/vehicles/:id', vehicleController.delete); // trocar para deletar por placa
 
 routes.post('/customers', validateCustomerData, customerController.create);
 routes.get('/customers', customerController.getAll);
 routes.get('/customers/id/:id', customerController.getById);
 routes.get('/customers/cpf/:cpf', customerController.getByCpf);
-routes.put('/customers/',customerController.update);
+routes.patch('/customers/', validateCustomerData, customerController.update);
 routes.delete('/customers/:id', customerController.delete); // trocar para deletar por cpf
 
 routes.post('/rents', validateRentalData, rentalController.create);

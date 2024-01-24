@@ -2,18 +2,23 @@ import { StatusCodes } from "http-status-codes";
 import { AppError } from "../../error/AppError";
 import { Vehicle } from "../../models/Vehicle";
 import { vehicleRepository } from "../../repositories/VehicleRepository";
+import { VehicleDTO } from "../../dto/VehicleDTO";
 
 class UpdateVehicleService {
-    execute(vehicle: Vehicle): Vehicle {
-        if(!vehicle.id || !vehicle.model || !vehicle.color || !vehicle.type || !vehicle.plate || !vehicle.dailyRental || !vehicle.increasePorcentage) {
-            throw new AppError('Missing required fields', StatusCodes.BAD_REQUEST);
-        }
-
-        const updatedVehicle: Vehicle = vehicleRepository.update(vehicle);
+    execute(vehicle: VehicleDTO): Vehicle {
+        let updatedVehicle: Vehicle = vehicleRepository.getById(vehicle.id);
 
         if (!updatedVehicle) {
             throw new AppError('Vehicle not found', StatusCodes.NOT_FOUND);
         }
+
+        updatedVehicle.model = vehicle.model;
+        updatedVehicle.color = vehicle.color;
+        updatedVehicle.type = vehicle.type;
+        updatedVehicle.plate = vehicle.plate;
+        updatedVehicle.dailyRental = vehicle.dailyRental;
+
+        updatedVehicle = vehicleRepository.update(updatedVehicle);
 
         return updatedVehicle;
     }

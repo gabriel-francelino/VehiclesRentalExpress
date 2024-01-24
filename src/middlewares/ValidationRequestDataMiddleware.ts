@@ -9,6 +9,10 @@ export const validateCustomerData = (req: Request, res: Response, next: NextFunc
     const { cpf, name, dateOfBirth, driverLicense }: CustomerDTO = req.body;
     const customerDTO: CustomerDTO = { cpf, name, dateOfBirth, driverLicense };
     
+    if ( req.method === 'PATCH' && !req.body.id ) {
+        throw new AppError(`The field id is required`, StatusCodes.BAD_REQUEST);
+    }
+
     for (const key in customerDTO) {
         if (!customerDTO[key]) {
             throw new AppError(`The field ${key} is required`, StatusCodes.BAD_REQUEST);
@@ -38,6 +42,10 @@ export const validateRentalData = (req: Request, res: Response, next: NextFuncti
 export const validateVehicleData = (req: Request, res: Response, next: NextFunction) => {
     const { model, color, type, plate, dailyRental }: VehicleDTO = req.body;
     const vehicleDTO: VehicleDTO = { model, color, type, plate, dailyRental };
+
+    if ( req.method === 'PATCH' && !req.body.id ) {
+        throw new AppError(`The field id is required`, StatusCodes.BAD_REQUEST);
+    }
 
     for (const key in vehicleDTO) {
         if (!vehicleDTO[key]) {
