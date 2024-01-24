@@ -1,14 +1,16 @@
 import { v4 as uuid } from 'uuid';
 
+export type DriverLicense = 'A' | 'B' | 'C' | 'D' | 'E' | 'AB';
+
 export class Customer {
   private _id: string;
   private _cpf: string;
   private _name: string;
   private _dateOfBirth: Date;
-  private _driverLicense: string;
+  private _driverLicense: DriverLicense;
   private _hasRent: boolean;
 
-  constructor(cpf: string, name: string, dateOfBirth: Date, driverLicense: string) {
+  constructor(cpf: string, name: string, dateOfBirth: Date, driverLicense: DriverLicense) {
     this._id = uuid();
     this._cpf = cpf;
     this._name = name;
@@ -53,7 +55,7 @@ export class Customer {
     this._dateOfBirth = dateOfBirth;
   }
 
-  set driverLicense(driverLicense: string) {
+  set driverLicense(driverLicense: DriverLicense) {
     this._driverLicense = driverLicense;
   }
 
