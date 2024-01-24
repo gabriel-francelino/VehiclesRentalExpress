@@ -6,6 +6,7 @@ import { createRentalService } from "../services/rental/CreateRentalService";
 import { devolutionRentalService } from "../services/rental/DevolutionRentalService";
 import { getAllRentalService } from "../services/rental/GetAllRentalService";
 import { generateRentalInvoiceService } from "../services/rental/GenerateRentalInvoiceService";
+import { getAllActiveRentalService } from "../services/rental/GetAllActiveRentalService";
 
 class RentalController {
     create(req: Request, res: Response, next: NextFunction) {
@@ -22,6 +23,16 @@ class RentalController {
     getAll(req: Request, res: Response, next: NextFunction) {
         try {
             const rental: Rental[] = getAllRentalService.execute();
+            res.status(StatusCodes.OK).send(rental);
+            next();
+        } catch (error) {
+            next(error);
+        }
+    }
+    
+    getAllActive(req: Request, res: Response, next: NextFunction) {
+        try {
+            const rental: Rental[] = getAllActiveRentalService.execute();
             res.status(StatusCodes.OK).send(rental);
             next();
         } catch (error) {

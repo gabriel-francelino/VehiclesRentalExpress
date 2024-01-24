@@ -26,6 +26,7 @@ routes.delete('/customers/:id', customerController.delete); // trocar para delet
 
 routes.post('/rents', validateRentalData, rentalController.create);
 routes.get('/rents/:id/invoice', rentalController.generateInvoice);
+routes.get('/rents/active', rentalController.getAllActive);
 routes.get('/rents', rentalController.getAll);
 routes.delete('/rents/:id', rentalController.return);
 

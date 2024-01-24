@@ -2,14 +2,20 @@ import { Rental } from "../models/Rental";
 
 class RentalRepository {
     private rental: Rental[] = [];
+    private rentalBackup: Rental[] = [];
 
     create(rental: Rental): Rental{
         this.rental.push(rental);
+        this.rentalBackup.push(rental);
         return rental;
     }
 
     getAll(): Rental[] {
-        return this.rental
+        return this.rentalBackup;
+    }
+
+    getAllActive(): Rental[] {
+        return this.rental;
     }
 
     getById(id: string): Rental | undefined {
@@ -22,6 +28,11 @@ class RentalRepository {
 
     getByVehiclePlate(vehiclePlate: string): Rental[] {
         return this.rental.filter(rental => rental.vehicle.plate === vehiclePlate);
+    }
+
+    delete(id: string): void {
+        const rentalIndex = this.rental.findIndex(rental => rental.id === id);
+        this.rental.splice(rentalIndex, 1);
     }
 }
 

@@ -12,6 +12,8 @@ class DevolutionRentalService {
 
         rental.vehicle.rented = false;
         rental.customer.hasRent = false;
+
+        rentalRepository.delete(id);
     }
 }
 
