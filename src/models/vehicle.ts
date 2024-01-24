@@ -1,16 +1,18 @@
 import { v4 as uuid } from 'uuid'
 
+export type VehicleType = 'car' | 'motorcycle'
+
 export class Vehicle {
   private _id: string;
   private _model: string;
   private _color: string;
-  private _type: string;
+  private _type: VehicleType;
   private _plate: string;
   private _dailyRental: number;
   private _rented: boolean;
   private _increasePorcentage: number;
 
-  constructor(model: string, color: string, type: string, plate: string, dailyRental: number) {
+  constructor(model: string, color: string, type: VehicleType, plate: string, dailyRental: number) {
     this._id = uuid();
     this._model = model;
     this._color = color;
@@ -65,7 +67,7 @@ export class Vehicle {
     this._color = newColor;
   }
 
-  set type(newType: string) {
+  set type(newType: VehicleType) {
     this._type = newType;
   }
 
