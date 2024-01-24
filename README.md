@@ -20,12 +20,11 @@ This is a simple API for a vehicles rental service. It allows you to create, rea
 - `POST /vehicles` - Create a new vehicle
     ```json
     {
-        "model": "Fiat",
+        "model": "Fiat Uno",
         "color": "Branco",
-        "type": "Uno",
-        "plate": "ABC-1234",
+        "type": "car",
+        "plate": "ABC-1235",
         "dailyRental": 100,
-        "increasePorcentage": 0.1
     }
     ```
 - `PUT /vehicles` - Update a vehicle
@@ -35,9 +34,8 @@ This is a simple API for a vehicles rental service. It allows you to create, rea
         "model": "Fiat Uno",
         "color": "Vermelho",
         "type": "car",
-        "plate": "ABC-1234",
+        "plate": "ABC-1235",
         "dailyRental": 60,
-        "rented": false
     }
     ```
 - `DELETE /vehicles/:id` - Delete a vehicle by id
@@ -46,7 +44,7 @@ This is a simple API for a vehicles rental service. It allows you to create, rea
 
 - `GET /customers` - Get all customers
 - `GET /customers/:id` - Get a customer by id
-- `GET /customers/:cpf` - Get a customer by cpf
+- `GET /customers?cpf=12345678901` - Get a customer by cpf
 - `POST /customers` - Create a new customer
     ```json
     {
@@ -57,11 +55,21 @@ This is a simple API for a vehicles rental service. It allows you to create, rea
     }
     ```
 - `PUT /customers` - Update a customer
+    ```json
+    {
+        "id": "d10acca1-8814-4c32-b9dc-a65ab499de46",
+        "cpf": "12345678901",
+        "name": "Gabriel Francelino",
+        "dateOfBirth": "2001-01-01T00:00:00.000Z",
+        "driverLicense": "B"
+    }
+    ```
 - `DELETE /customers/:id` - Delete a customer by id
 
 ### Rentals
 
 - `GET /rents` - Get all rents
+- `GET /rents/active` - Get all active rents
 - `GET /rents/:id/invoice` - Get a rental invoice by id
 - `POST /rents` - Create a new rental
     ```json
