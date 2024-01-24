@@ -41,7 +41,8 @@ class CustomerController {
 
     getByCpf(req: Request, res: Response, next: NextFunction) {
         try {
-            const { cpf } = req.params;
+            const cpf = req.query.cpf as string;
+            console.log(cpf);
             const customer: Customer = getByCpfCustomerService.execute(cpf);
             res.status(StatusCodes.OK).send(customer);
         } catch (error) {
