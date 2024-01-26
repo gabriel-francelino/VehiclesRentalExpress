@@ -20,7 +20,7 @@ routes.delete('/vehicles/:id', vehicleController.delete);
 routes.post('/customers', validateCustomerData, customerController.create);
 routes.get('/customers/:id', customerController.getById);
 routes.get('/customers', customerController.getAll);
-routes.get('/customers', customerController.getByCpf);
+// routes.get('/customers', customerController.getByCpf);
 routes.patch('/customers/', validateCustomerData, customerController.update);
 routes.delete('/customers/:id', customerController.delete); 
 

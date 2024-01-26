@@ -44,7 +44,7 @@ This is a simple API for a vehicles rental service. It allows you to create, rea
 
 - `GET /customers` - Get all customers
 - `GET /customers/:id` - Get a customer by id
-- `GET /customers?cpf=12345678901` - Get a customer by cpf
+<!-- - `GET /customers?cpf=12345678901` - Get a customer by cpf -->
 - `POST /customers` - Create a new customer
     ```json
     {
