@@ -1,0 +1,21 @@
+# docker run --name vehicle-rental -e POSTGRES_USER=docker -e POSTGRES_PASSWORD=docker -e
+#  POSTGRES_DB=vehicle-rental -p 5432:5432 postgis/postgis
+
+version: '3'
+
+services:
+  vehicle-rental-db:
+    image: postgis/postgis
+    container_name: vehicle-rental
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: vehicle-rental
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    command: ["postgres"]
+
+volumes:
+  postgres-data:

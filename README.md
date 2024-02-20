@@ -8,7 +8,8 @@ This is a simple API for a vehicles rental service. It allows you to create, rea
 
 1. Clone the repository
 2. Run `npm install` to install the dependencies
-3. Run `npm start` to start the server
+3. Run `docker compose up -d` to create database
+4. Run `npm start` to start the server
 
 ## API Endpoints
 
