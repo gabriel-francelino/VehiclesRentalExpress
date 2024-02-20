@@ -1,6 +1,6 @@
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 
-export type DriverLicense = 'A' | 'B' | 'C' | 'D' | 'E' | 'AB';
+export type DriverLicense = "A" | "B" | "C" | "D" | "E" | "AB";
 
 interface CustomerProps {
   id?: string;
@@ -12,14 +12,14 @@ interface CustomerProps {
 }
 
 export class Customer {
-  private props: CustomerProps
+  private props: CustomerProps;
 
   constructor(props: CustomerProps) {
     this.props = {
       id: uuid(),
       hasRent: false,
-      ...props
-    }
+      ...props,
+    };
   }
 
   get id(): string {

@@ -4,15 +4,15 @@ import { Vehicle } from "../../models/Vehicle";
 import { vehicleRepository } from "../../repositories/VehicleRepository";
 
 class GetByIdVehicleService {
-    execute(id: string): Vehicle {
-        const vehicle = vehicleRepository.getById(id);
+  execute(id: string): Vehicle {
+    const vehicle = vehicleRepository.getById(id);
 
-        if (!vehicle) {
-            throw new AppError("Vehicle not found", StatusCodes.NOT_FOUND); 
-        }
-
-        return vehicle;
+    if (!vehicle) {
+      throw new AppError("Vehicle not found", StatusCodes.NOT_FOUND);
     }
+
+    return vehicle;
+  }
 }
 
 const getByIdVehicleService = new GetByIdVehicleService();

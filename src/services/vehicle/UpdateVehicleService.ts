@@ -5,23 +5,23 @@ import { vehicleRepository } from "../../repositories/VehicleRepository";
 import { VehicleDTO } from "../../dto/VehicleDTO";
 
 class UpdateVehicleService {
-    execute(vehicle: VehicleDTO): Vehicle {
-        let updatedVehicle: Vehicle = vehicleRepository.getById(vehicle.id);
+  execute(vehicle: VehicleDTO): Vehicle {
+    let updatedVehicle: Vehicle = vehicleRepository.getById(vehicle.id);
 
-        if (!updatedVehicle) {
-            throw new AppError('Vehicle not found', StatusCodes.NOT_FOUND);
-        }
-
-        updatedVehicle.model = vehicle.model;
-        updatedVehicle.color = vehicle.color;
-        updatedVehicle.type = vehicle.type;
-        updatedVehicle.plate = vehicle.plate;
-        updatedVehicle.dailyRental = vehicle.dailyRental;
-
-        updatedVehicle = vehicleRepository.update(updatedVehicle);
-
-        return updatedVehicle;
+    if (!updatedVehicle) {
+      throw new AppError("Vehicle not found", StatusCodes.NOT_FOUND);
     }
+
+    updatedVehicle.model = vehicle.model;
+    updatedVehicle.color = vehicle.color;
+    updatedVehicle.type = vehicle.type;
+    updatedVehicle.plate = vehicle.plate;
+    updatedVehicle.dailyRental = vehicle.dailyRental;
+
+    updatedVehicle = vehicleRepository.update(updatedVehicle);
+
+    return updatedVehicle;
+  }
 }
 
 const updateVehicleService = new UpdateVehicleService();
