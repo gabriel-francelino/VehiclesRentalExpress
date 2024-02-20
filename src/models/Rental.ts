@@ -3,6 +3,15 @@ import { v4 as uuid } from "uuid";
 import { Customer } from "./Customer";
 import { Vehicle } from "./Vehicle";
 
+interface RentalProps {
+    id?: string;
+    customer: Customer;
+    vehicle: Vehicle;
+    rentalDate: Date;
+    devolutionDate: Date;
+    rentalValue: number;
+}
+
 export interface Invoice {
     customerName: string;
     customerCpf: string;
@@ -17,63 +26,57 @@ export interface Invoice {
 }
 
 export class Rental {
-    private _id: string;
-    private _customer: Customer;
-    private _vehicle: Vehicle;
-    private _rentalDate: Date;
-    private _devolutionDate: Date;
-    private _rentalValue: number;
+    private props: RentalProps;
 
-    constructor(customer: Customer, vehicle: Vehicle, rentalDate: Date, devolutionDate: Date) {
-        this._id = uuid();
-        this._customer = customer;
-        this._vehicle = vehicle;
-        this._rentalDate = rentalDate;
-        this._devolutionDate = devolutionDate;
-        this._rentalValue = 0.0;
+    constructor(props: RentalProps, id?: string) {
+        this.props = {
+            id: uuid(),
+            rentalValue: 0.0, // TODO: why 0.0 and not 0
+            ...props
+        }
     }
 
     get id(): string {
-        return this._id;
+        return this.id;
     }
 
     get customer(): Customer {
-        return this._customer;
+        return this.customer;
     }
 
     get vehicle(): Vehicle {
-        return this._vehicle;
+        return this.vehicle;
     }
 
     get rentalDate(): Date {
-        return this._rentalDate;
+        return this.rentalDate;
     }
 
     get devolutionDate(): Date {
-        return this._devolutionDate;
+        return this.devolutionDate;
     }
 
     get rentalValue(): number {
-        return this._rentalValue;
+        return this.rentalValue;
     }
 
     set customer(customer: Customer) {
-        this._customer = customer;
+        this.customer = customer;
     }
 
     set vehicle(vehicle: Vehicle) {
-        this._vehicle = vehicle;
+        this.vehicle = vehicle;
     }
 
     set rentalDate(rentalDate: Date) {
-        this._rentalDate = rentalDate;
+        this.rentalDate = rentalDate;
     }
 
     set devolutionDate(devolutionDate: Date) {
-        this._devolutionDate = devolutionDate;
+        this.devolutionDate = devolutionDate;
     }
 
     set rentalValue(rentalValue: number) {
-        this._rentalValue = rentalValue;
+        this.rentalValue = rentalValue;
     }
 }
