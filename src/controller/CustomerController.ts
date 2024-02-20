@@ -12,7 +12,7 @@ class CustomerController {
     create(req: Request, res: Response, next: NextFunction) {
         try {
             const { cpf, name, dateOfBirth, driverLicense } = req.body;
-            const customer = new Customer(cpf, name, dateOfBirth, driverLicense);
+            const customer = new Customer({ cpf, name, dateOfBirth, driverLicense });
             const createdCustomer = createCustomerService.execute(customer);
             res.status(StatusCodes.CREATED).send(createdCustomer);
         } catch (error) {
