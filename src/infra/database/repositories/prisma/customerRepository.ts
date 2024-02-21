@@ -78,13 +78,13 @@ export class PrismaCustomerRepository implements CustomerRepository {
     return PrismaCustomerMapper.toDomainProps(customer)
   }
 
-  async create(data: Customer): Promise<Customer> {
+  async create(data: Customer): Promise<CustomerProps> {
     const raw = PrismaCustomerMapper.toPrisma(data)
 
     const customer = await prisma.customer.create({
       data: raw,
     })
 
-    return PrismaCustomerMapper.toDomain(customer)
+    return PrismaCustomerMapper.toDomainProps(customer)
   }
 }

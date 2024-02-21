@@ -1,10 +1,10 @@
 import { StatusCodes } from 'http-status-codes'
 import { AppError } from '../../error/AppError'
-import { Customer, CustomerProps } from '../../models/Customer'
+import { CustomerProps } from '../../models/Customer'
 import { CustomerRepository } from '../../../infra/database/repositories/ICustomerRepository'
 
 interface CreateCustomerServiceResponse {
-  customer: Customer
+  customer: CustomerProps
 }
 
 export class CreateCustomerService {

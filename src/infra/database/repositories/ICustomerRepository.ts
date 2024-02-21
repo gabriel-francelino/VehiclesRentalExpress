@@ -1,4 +1,4 @@
-import { Customer, CustomerProps } from '../../../app/models/Customer'
+import { CustomerProps } from '../../../app/models/Customer'
 
 export interface CustomerRepository {
   findAll(): Promise<CustomerProps[]>
@@ -6,5 +6,5 @@ export interface CustomerRepository {
   findById(id: string): Promise<CustomerProps | null>
   updateHasRentById(id: string, hasRent: boolean): void
   update(customer: Partial<CustomerProps>): Promise<CustomerProps>
-  create(data: CustomerProps): Promise<Customer>
+  create(data: CustomerProps): Promise<CustomerProps>
 }
