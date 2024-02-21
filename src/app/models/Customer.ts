@@ -10,7 +10,7 @@ export interface CustomerProps {
   email: string
   dateOfBirth: Date
   driverLicense: DriverLicense
-  hasRent?: boolean
+  hasRent: boolean
   updatedAt?: Date | null
   createdAt: Date
 }
@@ -21,7 +21,7 @@ export class Customer {
   constructor(props: Replace<CustomerProps, { createdAt?: Date }>) {
     this.props = {
       id: uuid(),
-      hasRent: false,
+      // hasRent: false,
       createdAt: props.createdAt ?? new Date(),
       ...props,
     }
@@ -47,7 +47,7 @@ export class Customer {
     return this.dateOfBirth
   }
 
-  get driverLicense(): string {
+  get driverLicense(): DriverLicense {
     return this.driverLicense
   }
 

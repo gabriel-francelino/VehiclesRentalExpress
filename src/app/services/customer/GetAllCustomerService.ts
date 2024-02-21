@@ -1,18 +1,14 @@
 import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
-import { Customer, CustomerProps } from '../../models/Customer'
+import { CustomerProps } from '../../models/Customer'
 
 interface GetAllCustomerServiceResponse {
-  customers: Customer[]
+  customers: CustomerProps[]
 }
 
 export class GetAllCustomerService {
   constructor(private customerRepository: CustomerRepository) {}
   async execute(): Promise<GetAllCustomerServiceResponse> {
-    const customersData = await this.customerRepository.findAll()
-
-    const customers: Customer[] = customersData.map(
-      (customerData) => new Customer(customerData as CustomerProps),
-    )
+    const customers = await this.customerRepository.findAll()
 
     return {
       customers,

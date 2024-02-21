@@ -1,5 +1,5 @@
 import { Vehicle as RawVehicle } from '@prisma/client'
-import { Vehicle, VehicleType } from '@/app/models/Vehicle'
+import { Vehicle, VehicleType } from '../../../../../app/models/Vehicle'
 
 export class PrismaVehicleMapper {
   static toPrisma(vehicle: Vehicle) {

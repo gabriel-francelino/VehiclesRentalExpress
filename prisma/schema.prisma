@@ -13,16 +13,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum DriverLicense {
+  A
+  B
+  C
+  D
+  E
+  AB
+}
+
 model Customer {
-  id            String    @id @default(uuid())
-  cpf           String    @unique
+  id            String        @id @default(uuid())
+  cpf           String        @unique
   name          String
-  email         String    @unique
-  dateOfBirth   DateTime  @map("date_of_birth")
-  driverLicense String    @map("driver_license")
-  hasRent       Boolean
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime? @updatedAt @map("updated_at")
+  email         String        @unique
+  dateOfBirth   DateTime      @map("date_of_birth")
+  driverLicense DriverLicense @map("driver_license")
+  hasRent       Boolean       @default(false)
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime?     @updatedAt @map("updated_at")
   Rental        Rental[]
 
   @@map("customer")
@@ -63,4 +72,3 @@ model Rental {
 
   @@map("rental")
 }
-

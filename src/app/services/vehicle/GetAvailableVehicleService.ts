@@ -9,7 +9,7 @@ export class GetAvailableVehicleService {
   constructor(private vehicleRepository: VehicleRepository) {}
   async execute(): Promise<GetAvailableVehicleServiceReponse> {
     const vehicleNotRented =
-      await this.vehicleRepository.findByIdRentedStatus(false)
+      await this.vehicleRepository.findRentedStatusById(false)
 
     const vehicles = vehicleNotRented.map(
       (vehicle) => new Vehicle(vehicle as VehicleProps),

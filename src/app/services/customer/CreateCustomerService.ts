@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes'
 import { AppError } from '../../error/AppError'
 import { Customer, CustomerProps } from '../../models/Customer'
-import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
+import { CustomerRepository } from '../../../infra/database/repositories/ICustomerRepository'
 
 interface CreateCustomerServiceResponse {
   customer: Customer
@@ -23,9 +23,7 @@ export class CreateCustomerService {
       )
     }
 
-    const customer = new Customer(customerData)
-
-    await this.customerRepository.create(customer)
+    const customer = await this.customerRepository.create(customerData)
 
     return {
       customer,

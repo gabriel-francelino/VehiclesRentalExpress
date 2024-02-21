@@ -1,24 +1,38 @@
 import { StatusCodes } from 'http-status-codes'
 import { AppError } from '../../error/AppError'
-import { Customer, CustomerProps } from '../../models/Customer'
+import { CustomerProps, DriverLicense } from '../../models/Customer'
 import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
 
+interface UpdateCustomerServiceRequest {
+  id: string
+  cpf: string
+  email: string
+  name: string
+  driverLicense: DriverLicense
+}
+
 interface UpdateCustomerServiceResponse {
-  customer: Customer
+  customer: CustomerProps
 }
 
 export class UpdateCustomerService {
   constructor(private customerRepository: CustomerRepository) {}
-  async execute(data: Customer): Promise<UpdateCustomerServiceResponse> {
-    const customerData = await this.customerRepository.findById(data.id)
+  async execute({
+    id,
+    cpf,
+    email,
+    name,
+    driverLicense,
+  }: UpdateCustomerServiceRequest): Promise<UpdateCustomerServiceResponse> {
+    const customerData = await this.customerRepository.findById(id)
 
     if (!customerData) {
       throw new AppError('Customer not found', StatusCodes.NOT_FOUND)
     }
 
-    await this.customerRepository.update(customerData)
+    const data = { id, cpf, email, name, driverLicense }
 
-    const customer: Customer = new Customer(customerData as CustomerProps)
+    const customer = await this.customerRepository.update(data)
 
     return {
       customer,

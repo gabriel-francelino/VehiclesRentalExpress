@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes'
 import { AppError } from '../../error/AppError'
-import { Customer, CustomerProps } from '../../models/Customer'
+import { CustomerProps } from '../../models/Customer'
 import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
 
 interface GetByCpfCustomerServiceRequest {
@@ -8,7 +8,7 @@ interface GetByCpfCustomerServiceRequest {
 }
 
 interface GetByCpfCustomerServiceResponse {
-  customer: Customer
+  customer: CustomerProps
 }
 
 export class GetByCpfCustomerService {
@@ -16,13 +16,11 @@ export class GetByCpfCustomerService {
   async execute({
     cpf,
   }: GetByCpfCustomerServiceRequest): Promise<GetByCpfCustomerServiceResponse> {
-    const customerData = await this.customerRepository.findByCpf(cpf)
+    const customer = await this.customerRepository.findByCpf(cpf)
 
-    if (!customerData) {
+    if (!customer) {
       throw new AppError('Customer not found', StatusCodes.NOT_FOUND)
     }
-
-    const customer: Customer = new Customer(customerData as CustomerProps)
 
     return {
       customer,

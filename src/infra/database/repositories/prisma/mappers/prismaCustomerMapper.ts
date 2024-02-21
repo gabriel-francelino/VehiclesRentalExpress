@@ -1,5 +1,9 @@
 import { Customer as RawCustomer } from '@prisma/client'
-import { Customer, DriverLicense } from '@/app/models/Customer'
+import {
+  Customer,
+  CustomerProps,
+  DriverLicense,
+} from '../../../../../app/models/Customer'
 
 export class PrismaCustomerMapper {
   static toPrisma(customer: Customer) {
@@ -27,6 +31,20 @@ export class PrismaCustomerMapper {
       updatedAt: raw.updatedAt,
       createdAt: raw.createdAt,
     })
+  }
+
+  static toDomainProps(raw: RawCustomer): CustomerProps {
+    return {
+      id: raw.id,
+      cpf: raw.cpf,
+      name: raw.name,
+      email: raw.email,
+      dateOfBirth: raw.dateOfBirth,
+      driverLicense: this.mapDriverLicense(raw.driverLicense),
+      hasRent: raw.hasRent,
+      updatedAt: raw.updatedAt,
+      createdAt: raw.createdAt,
+    }
   }
 
   private static mapDriverLicense(rawLicense: string): DriverLicense {

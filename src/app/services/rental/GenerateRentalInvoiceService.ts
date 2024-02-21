@@ -1,11 +1,9 @@
 import { StatusCodes } from 'http-status-codes'
 import { AppError } from '../../error/AppError'
-import { Invoice, Rental } from '../../models/Rental'
+import { Invoice } from '../../models/Rental'
 import { RentalRepository } from '@/infra/database/repositories/IRentalRepository'
 import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
 import { VehicleRepository } from '@/infra/database/repositories/IVehicleRepository'
-import { Vehicle } from '@/app/models/Vehicle'
-import { Customer } from '@/app/models/Customer'
 
 interface GenerateRentalInvoiceServiceResponse {
   invoice: Invoice
@@ -21,13 +19,13 @@ export class GenerateRentalInvoiceService {
   async execute(
     rentalId: string,
   ): Promise<GenerateRentalInvoiceServiceResponse> {
-    const rental: Rental = await this.rentalRepository.findById(rentalId)
+    const rental = await this.rentalRepository.findById(rentalId)
 
     if (!rental) {
       throw new AppError('Rental not found', StatusCodes.NOT_FOUND)
     }
 
-    const rentalCustomer: Customer = await this.customerRepository.findById(
+    const rentalCustomer = await this.customerRepository.findById(
       rental.customerId,
     )
 
@@ -35,7 +33,7 @@ export class GenerateRentalInvoiceService {
       throw new AppError('Customer not found', StatusCodes.NOT_FOUND)
     }
 
-    const rentalVehicle: Vehicle = await this.vehicleRepository.findById(
+    const rentalVehicle = await this.vehicleRepository.findById(
       rental.vehicleId,
     )
 
