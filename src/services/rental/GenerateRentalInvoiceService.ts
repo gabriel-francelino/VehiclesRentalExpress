@@ -1,14 +1,14 @@
-import { StatusCodes } from "http-status-codes";
-import { AppError } from "../../error/AppError";
-import { Invoice, Rental } from "../../models/Rental";
-import { rentalRepository } from "../../repositories/RentalRepository";
+import { StatusCodes } from 'http-status-codes'
+import { AppError } from '../../error/AppError'
+import { Invoice, Rental } from '../../models/Rental'
+import { rentalRepository } from '../../repositories/RentalRepository'
 
 class GenerateRentalInvoiceService {
   execute(rentalId: string): Invoice {
-    const rental = rentalRepository.getById(rentalId);
+    const rental = rentalRepository.getById(rentalId)
 
     if (!rental) {
-      throw new AppError("Rental not found", StatusCodes.NOT_FOUND);
+      throw new AppError('Rental not found', StatusCodes.NOT_FOUND)
     }
 
     const {
@@ -17,7 +17,7 @@ class GenerateRentalInvoiceService {
       rentalDate,
       devolutionDate,
       rentalValue,
-    }: Rental = rental;
+    }: Rental = rental
 
     return {
       customerName: customer.name,
@@ -30,10 +30,10 @@ class GenerateRentalInvoiceService {
       rentalDate,
       devolutionDate,
       rentalValue,
-    };
+    }
   }
 }
 
-const generateRentalInvoiceService = new GenerateRentalInvoiceService();
+const generateRentalInvoiceService = new GenerateRentalInvoiceService()
 
-export { generateRentalInvoiceService };
+export { generateRentalInvoiceService }

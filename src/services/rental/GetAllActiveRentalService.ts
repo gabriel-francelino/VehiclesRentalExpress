@@ -1,12 +1,12 @@
-import { Rental } from "../../models/Rental";
-import { rentalRepository } from "../../repositories/RentalRepository";
+import { Rental } from '../../models/Rental'
+import { rentalRepository } from '../../repositories/RentalRepository'
 
 class GetAllActiveRentalService {
   execute(): Rental[] {
-    return rentalRepository.getAllActive();
+    return rentalRepository.getAllActive()
   }
 }
 
-const getAllActiveRentalService = new GetAllActiveRentalService();
+const getAllActiveRentalService = new GetAllActiveRentalService()
 
-export { getAllActiveRentalService };
+export { getAllActiveRentalService }
