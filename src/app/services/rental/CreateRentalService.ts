@@ -1,31 +1,44 @@
 import { StatusCodes } from 'http-status-codes'
-import { RentalDTO } from '@/app/dtos/RentalDTO'
 import { AppError } from '../../error/AppError'
-import { Rental } from '../../models/Rental'
-import { customerRepository } from '../../repositories/inMemory/InMemoryCustomerRepository'
-import { vehicleRepository } from '../../repositories/inMemory/InMemoryVehicleRepository'
-import { rentalRepository } from '../../repositories/inMemory/InMemoryRentalRepository'
-import { differenceInDays } from 'date-fns'
+import { Rental, RentalProps } from '../../models/Rental'
+import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
+import { VehicleRepository } from '@/infra/database/repositories/IVehicleRepository'
+import { RentalRepository } from '@/infra/database/repositories/IRentalRepository'
+import { VehicleType } from '@prisma/client'
+import {
+  CalculateRentalValueRequest,
+  calculateRentalValue,
+} from '@/app/utils/calculateRentalValue'
 
-class CreateRentalService {
-  execute(rentalDTO: RentalDTO): Rental {
-    const { customerCpf, vehiclePlate, rentalDate, devolutionDate } = rentalDTO
+interface CreateRentalServiceResponse {
+  rental: Rental
+}
 
-    const customer = customerRepository.getByCpf(customerCpf)
+export class CreateRentalService {
+  constructor(
+    private customerRepository: CustomerRepository,
+    private vehicleRepository: VehicleRepository,
+    private rentalRepository: RentalRepository,
+  ) {}
 
-    // separar as validações em um arquivo separado
+  async execute(rentalData: RentalProps): Promise<CreateRentalServiceResponse> {
+    const { customerId, vehicleId, rentalDate, devolutionDate } = rentalData
+
+    const customer = await this.customerRepository.findById(customerId)
+
+    // TODO: separar a validacao de carteira e data de devolucao em utils
 
     if (!customer) {
       throw new AppError('Customer not found', StatusCodes.NOT_FOUND)
     }
 
-    const vehicle = vehicleRepository.getByPlate(vehiclePlate)
+    const vehicle = await this.vehicleRepository.findById(vehicleId)
 
     if (!vehicle) {
       throw new AppError('Vehicle not found', StatusCodes.NOT_FOUND)
     }
 
-    if (vehicle.rented) {
+    if (vehicle.isRented) {
       throw new AppError('Vehicle already rented', StatusCodes.BAD_REQUEST)
     }
 
@@ -37,14 +50,20 @@ class CreateRentalService {
       throw new AppError('Invalid rental date', StatusCodes.BAD_REQUEST)
     }
 
-    if (customer.driverLicense === 'A' && vehicle.type !== 'motorcycle') {
+    if (
+      customer.driverLicense === 'A' &&
+      vehicle.type !== VehicleType.MOTORCYCLE
+    ) {
       throw new AppError(
         "People with driver license 'A' can rent motorcycles only",
         StatusCodes.BAD_REQUEST,
       )
     }
 
-    if (customer.driverLicense === 'B' && vehicle.type === 'motorcycle') {
+    if (
+      customer.driverLicense === 'B' &&
+      vehicle.type === VehicleType.MOTORCYCLE
+    ) {
       throw new AppError(
         "People with driver license 'B' can rent cars only",
         StatusCodes.BAD_REQUEST,
@@ -52,26 +71,29 @@ class CreateRentalService {
     }
 
     customer.hasRent = true
-    vehicle.rented = true
-    const rent = new Rental({ customer, vehicle, rentalDate, devolutionDate })
-    rent.rentalValue = this.calculateRentalValue(rent)
+    vehicle.isRented = true
+    const rent = new Rental({
+      customerId,
+      vehicleId,
+      rentalDate,
+      devolutionDate,
+    })
 
-    return rentalRepository.create(rent)
-  }
+    const dataToCalculate: CalculateRentalValueRequest = {
+      dailyRental: vehicle.dailyRental,
+      increasePorcentage: vehicle.increasePorcentage,
+      rentalDate,
+      devolutionDate,
+    }
 
-  private calculateRentalValue({
-    vehicle,
-    rentalDate,
-    devolutionDate,
-  }: Rental): number {
-    const rentalDays: number = differenceInDays(devolutionDate, rentalDate)
-    const rentalValue: number = vehicle.dailyRental * rentalDays
-    const increase: number = rentalValue * vehicle.increasePorcentage
+    rent.rentalValue = calculateRentalValue(dataToCalculate)
 
-    return rentalValue + increase
+    const rental = new Rental(rent)
+
+    await this.rentalRepository.create(rent)
+
+    return {
+      rental,
+    }
   }
 }
-
-const createRentalService = new CreateRentalService()
-
-export { createRentalService }

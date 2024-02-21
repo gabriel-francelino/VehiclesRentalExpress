@@ -1,17 +1,15 @@
 import { v4 as uuid } from 'uuid'
 
-import { Customer } from './Customer'
-import { Vehicle } from './Vehicle'
 import { Replace } from '@/helpers/replace'
 
-interface RentalProps {
+export interface RentalProps {
   id?: string
-  customer: Customer
-  vehicle: Vehicle
+  customerId: string
+  vehicleId: string
   rentalDate: Date
   devolutionDate: Date
   rentalValue?: number
-  updatedAt?: Date | undefined
+  updatedAt?: Date | null
   createdAt: Date
 }
 
@@ -44,12 +42,12 @@ export class Rental {
     return this.id
   }
 
-  get customer(): Customer {
-    return this.customer
+  get customerId(): string {
+    return this.customerId
   }
 
-  get vehicle(): Vehicle {
-    return this.vehicle
+  get vehicleId(): string {
+    return this.vehicleId
   }
 
   get rentalDate(): Date {
@@ -64,22 +62,22 @@ export class Rental {
     return this.rentalValue
   }
 
-  get updatedAt(): Date | null | undefined {
+  get updatedAt(): Date | null {
     const updatedAt = this.props.updatedAt
 
-    return updatedAt
+    return updatedAt ?? null
   }
 
   get createdAt(): Date {
     return this.props.createdAt
   }
 
-  set customer(customer: Customer) {
-    this.customer = customer
+  set customerId(customer: string) {
+    this.customerId = customer
   }
 
-  set vehicle(vehicle: Vehicle) {
-    this.vehicle = vehicle
+  set vehicleId(vehicle: string) {
+    this.vehicleId = vehicle
   }
 
   set rentalDate(rentalDate: Date) {

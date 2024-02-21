@@ -51,6 +51,19 @@ export class PrismaCustomerRepository implements CustomerRepository {
     return customer
   }
 
+  async updateHasRentById(id: string, hasRent: boolean) {
+    const customer = await prisma.customer.update({
+      where: {
+        id,
+      },
+      data: {
+        hasRent,
+      },
+    })
+
+    return customer
+  }
+
   async update(data: Customer): Promise<Customer> {
     const customer = await prisma.customer.update({
       where: {

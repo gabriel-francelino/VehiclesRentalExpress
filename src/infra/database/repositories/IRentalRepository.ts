@@ -5,6 +5,7 @@ export interface RentalRepository {
   findById(id: string): Promise<Rental | null>
   // findByCustomerCpf(cpf: string): Promise<Rental | null>
   // findByPlate(plateId: string): Promise<Rental | null>
+  updateDevolutionById(id: string, devolutionDate: Date): void
   update(rental: Rental): Promise<Rental>
   create(data: Prisma.RentalUncheckedCreateInput): Promise<Rental>
 }

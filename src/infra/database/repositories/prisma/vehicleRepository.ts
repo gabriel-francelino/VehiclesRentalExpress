@@ -37,9 +37,25 @@ export class PrismaVehicleRepository implements VehicleRepository {
     return vehicle
   }
 
-  async findByIdRentedStatus(isRented: boolean): Promise<Vehicle[] | []> {
+  async findRentedStatusById(isRented: boolean): Promise<Vehicle[] | []> {
     const vehicle = await prisma.vehicle.findMany({
       where: {
+        isRented,
+      },
+    })
+
+    return vehicle
+  }
+
+  async updateRentedStatusById(
+    id: string,
+    isRented: boolean,
+  ): Promise<Vehicle> {
+    const vehicle = await prisma.vehicle.update({
+      where: {
+        id,
+      },
+      data: {
         isRented,
       },
     })

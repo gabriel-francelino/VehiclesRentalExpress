@@ -1,22 +1,30 @@
 import { StatusCodes } from 'http-status-codes'
 import { AppError } from '../../error/AppError'
-import { rentalRepository } from '../../repositories/inMemory/InMemoryRentalRepository'
+import { RentalRepository } from '@/infra/database/repositories/IRentalRepository'
+import { VehicleRepository } from '@/infra/database/repositories/IVehicleRepository'
+import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
 
-class DevolutionRentalService {
-  execute(id: string): void {
-    const rental = rentalRepository.getById(id)
+export class DevolutionRentalService {
+  constructor(
+    private rentalRepository: RentalRepository,
+    private vehicleRepository: VehicleRepository,
+    private customerRepository: CustomerRepository,
+  ) {}
 
-    if (!rental) {
+  async execute(id: string) {
+    const rentalExists = await this.rentalRepository.findById(id)
+
+    if (!rentalExists) {
       throw new AppError('Rental not found', StatusCodes.NOT_FOUND)
     }
 
-    rental.vehicle.rented = false
-    rental.customer.hasRent = false
-
-    rentalRepository.delete(id)
+    await Promise.all([
+      this.rentalRepository.updateDevolutionById(rentalExists.id, new Date()),
+      this.vehicleRepository.updateRentedStatusById(
+        rentalExists.vehicleId,
+        false,
+      ),
+      this.customerRepository.updateHasRentById(rentalExists.customerId, false),
+    ])
   }
 }
-
-const devolutionRentalService = new DevolutionRentalService()
-
-export { devolutionRentalService }

@@ -23,6 +23,17 @@ export class PrismaRentalRepository implements RentalRepository {
     return rental
   }
 
+  async updateDevolutionById(id: string, devolutionDate: Date) {
+    await prisma.rental.update({
+      where: {
+        id,
+      },
+      data: {
+        devolutionDate,
+      },
+    })
+  }
+
   async update(data: Rental): Promise<Rental> {
     const rental = await prisma.rental.update({
       where: {
