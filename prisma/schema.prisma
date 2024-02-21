@@ -12,3 +12,54 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Customer {
+  id            String    @id @default(uuid())
+  cpf           String    @unique
+  name          String
+  email         String    @unique
+  dateOfBirth   DateTime  @map("date_of_birth")
+  driverLicense String    @map("driver_license")
+  hasRent       Boolean
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime? @updatedAt @map("updated_at")
+  Rental        Rental[]
+
+  @@map("customer")
+}
+
+enum VehicleType {
+  CAR
+  MOTORCYCLE
+}
+
+model Vehicle {
+  id                 String      @id @default(uuid())
+  model              String
+  color              String
+  type               VehicleType
+  plate              String      @unique
+  dailyRental        Float       @map("daily_rental")
+  isRented           Boolean
+  increasePorcentage Float       @map("increase_porcentage")
+  createdAt          DateTime    @default(now()) @map("created_at")
+  updatedAt          DateTime?   @updatedAt @map("updated_at")
+  Rental             Rental[]
+
+  @@map("vehicle")
+}
+
+model Rental {
+  id             String    @id @default(uuid())
+  rentalDate     DateTime  @map("rental_date")
+  devolutionDate DateTime  @map("devolution_date")
+  rentalValue    Float     @map("rental_value")
+  customerId     String    @map("customer_id")
+  customer       Customer  @relation(fields: [customerId], references: [id])
+  vehicleId      String    @map("vehicle_id")
+  vehicle        Vehicle   @relation(fields: [vehicleId], references: [id])
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime? @updatedAt @map("updated_at")
+
+  @@map("rental")
+}
