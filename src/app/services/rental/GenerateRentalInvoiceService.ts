@@ -1,39 +1,63 @@
 import { StatusCodes } from 'http-status-codes'
 import { AppError } from '../../error/AppError'
 import { Invoice, Rental } from '../../models/Rental'
-import { rentalRepository } from '../../repositories/inMemory/InMemoryRentalRepository'
+import { RentalRepository } from '@/infra/database/repositories/IRentalRepository'
+import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
+import { VehicleRepository } from '@/infra/database/repositories/IVehicleRepository'
+import { Vehicle } from '@/app/models/Vehicle'
+import { Customer } from '@/app/models/Customer'
 
-class GenerateRentalInvoiceService {
-  execute(rentalId: string): Invoice {
-    const rental = rentalRepository.getById(rentalId)
+interface GenerateRentalInvoiceServiceResponse {
+  invoice: Invoice
+}
+
+export class GenerateRentalInvoiceService {
+  constructor(
+    private rentalRepository: RentalRepository,
+    private customerRepository: CustomerRepository,
+    private vehicleRepository: VehicleRepository,
+  ) {}
+
+  async execute(
+    rentalId: string,
+  ): Promise<GenerateRentalInvoiceServiceResponse> {
+    const rental: Rental = await this.rentalRepository.findById(rentalId)
 
     if (!rental) {
       throw new AppError('Rental not found', StatusCodes.NOT_FOUND)
     }
 
-    const {
-      customer,
-      vehicle,
-      rentalDate,
-      devolutionDate,
-      rentalValue,
-    }: Rental = rental
+    const rentalCustomer: Customer = await this.customerRepository.findById(
+      rental.customerId,
+    )
+
+    if (!rentalCustomer) {
+      throw new AppError('Customer not found', StatusCodes.NOT_FOUND)
+    }
+
+    const rentalVehicle: Vehicle = await this.vehicleRepository.findById(
+      rental.vehicleId,
+    )
+
+    if (!rentalVehicle) {
+      throw new AppError('Vehicle not found', StatusCodes.NOT_FOUND)
+    }
+
+    const invoice: Invoice = {
+      customerName: rentalCustomer.name,
+      customerCpf: rentalCustomer.cpf,
+      customerCnh: rentalCustomer.driverLicense,
+      vehiclePlate: rentalVehicle.plate,
+      vehicleType: rentalVehicle.type,
+      vehicleModel: rentalVehicle.model,
+      vehicleRental: rentalVehicle.dailyRental,
+      rentalDate: rental.rentalDate,
+      devolutionDate: rental.devolutionDate,
+      rentalValue: rental.rentalValue,
+    }
 
     return {
-      customerName: customer.name,
-      customerCpf: customer.cpf,
-      customerCnh: customer.driverLicense,
-      vehiclePlate: vehicle.plate,
-      vehicleType: vehicle.type,
-      vehicleModel: vehicle.model,
-      vehicleRental: vehicle.dailyRental,
-      rentalDate,
-      devolutionDate,
-      rentalValue,
+      invoice,
     }
   }
 }
-
-const generateRentalInvoiceService = new GenerateRentalInvoiceService()
-
-export { generateRentalInvoiceService }

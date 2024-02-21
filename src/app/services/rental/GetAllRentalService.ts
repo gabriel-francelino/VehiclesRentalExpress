@@ -1,12 +1,22 @@
-import { Rental } from '../../models/Rental'
-import { rentalRepository } from '../../repositories/inMemory/InMemoryRentalRepository'
+import { RentalRepository } from '@/infra/database/repositories/IRentalRepository'
+import { Rental, RentalProps } from '../../models/Rental'
 
-class GetAllRentalService {
-  execute(): Rental[] {
-    return rentalRepository.getAll()
-  }
+interface GetAllRentalServiceResponse {
+  rentals: Rental[]
 }
 
-const getAllRentalService = new GetAllRentalService()
+export class GetAllRentalService {
+  constructor(private rentalRepository: RentalRepository) {}
 
-export { getAllRentalService }
+  async execute(): Promise<GetAllRentalServiceResponse> {
+    const rentalsData = await this.rentalRepository.findAll()
+
+    const rentals: Rental[] = rentalsData.map(
+      (rentalData) => new Rental(rentalData as RentalProps),
+    )
+
+    return {
+      rentals,
+    }
+  }
+}
