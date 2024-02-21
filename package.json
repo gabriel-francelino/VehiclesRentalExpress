@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node ./src/index.ts",
+    "start": "ts-node ./src/app.ts",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "keywords": [],
