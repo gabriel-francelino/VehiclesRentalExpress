@@ -39,7 +39,6 @@ This is a simple API for a vehicles rental service. It allows you to create, rea
         "dailyRental": 60,
     }
     ```
-- `DELETE /vehicles/:id` - Delete a vehicle by id
 
 ### Customers
 
@@ -65,7 +64,6 @@ This is a simple API for a vehicles rental service. It allows you to create, rea
         "driverLicense": "B"
     }
     ```
-- `DELETE /customers/:id` - Delete a customer by id
 
 ### Rentals
 
@@ -81,4 +79,3 @@ This is a simple API for a vehicles rental service. It allows you to create, rea
     "devolutionDate": "2024-01-08T00:00:00.000Z"
     }
     ```
-- `DELETE /rents/:id` - Delete a rental by id
