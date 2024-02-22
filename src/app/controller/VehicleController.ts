@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { ZodError, z } from 'zod'
 import { CreateVehicleService } from '../services/vehicle/CreateVehicleService'
+import { GetAllVehicleService } from '../services/vehicle/GetAllVehicleService'
 
 class VehicleController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -52,15 +53,20 @@ class VehicleController {
   //       next(error)
   //     }
   //   }
-  //   getAll(req: Request, res: Response, next: NextFunction) {
-  //     try {
-  //       const vehicles = getAllVehicleService.execute()
-  //       res.status(StatusCodes.OK).send(vehicles)
-  //       // next();
-  //     } catch (error) {
-  //       next(error)
-  //     }
-  //   }
+
+  async getAll(req: Request, res: Response, next: NextFunction) {
+    try {
+      const vehicleRepository = new PrismaVehicleRepository()
+      const getAllVehicleService = new GetAllVehicleService(vehicleRepository)
+
+      const vehicles = await getAllVehicleService.execute()
+      res.status(StatusCodes.OK).send(vehicles)
+      // next();
+    } catch (error) {
+      next(error)
+    }
+  }
+
   //   getById(req: Request, res: Response, next: NextFunction) {
   //     try {
   //       const { id } = req.params

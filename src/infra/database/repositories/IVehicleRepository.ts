@@ -1,7 +1,7 @@
 import { VehicleProps } from '../../../app/models/Vehicle'
 
 export interface VehicleRepository {
-  // findAll(): Promise<VehicleProps[]>
+  findAll(): Promise<VehicleProps[]>
   // findById(id: string): Promise<VehicleProps | null>
   findByPlate(plate: string): Promise<VehicleProps | null>
   // findRentedStatusById(isRented: boolean): Promise<VehicleProps[] | []>

@@ -4,11 +4,15 @@ import { Vehicle, VehicleProps } from '../../../../app/models/Vehicle'
 import { PrismaVehicleMapper } from './mappers/prismaVehicleMapper'
 
 export class PrismaVehicleRepository implements VehicleRepository {
-  // async findAll(): Promise<Vehicle[] | []> {
-  //   const vehicle = await prisma.vehicle.findMany()
+  async findAll(): Promise<Vehicle[] | []> {
+    const vehicleData = await prisma.vehicle.findMany()
 
-  //   return vehicle
-  // }
+    const vehicles = vehicleData.map((item) => {
+      return PrismaVehicleMapper.toDomainProps(item) as Vehicle
+    })
+
+    return vehicles
+  }
 
   // async findById(id: string): Promise<Vehicle | null> {
   //   const vehicle = await prisma.vehicle.findUnique({
