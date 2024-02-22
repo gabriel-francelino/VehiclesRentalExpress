@@ -1,15 +1,20 @@
 import { VehicleRepository } from '../IVehicleRepository'
 import { prisma } from '../../prismaService'
-import { Vehicle } from '@prisma/client'
+import { Vehicle, VehicleProps } from '../../../../app/models/Vehicle'
+import { PrismaVehicleMapper } from './mappers/prismaVehicleMapper'
 
 export class PrismaVehicleRepository implements VehicleRepository {
   async findAll(): Promise<Vehicle[] | []> {
-    const vehicle = await prisma.vehicle.findMany()
+    const vehicleData = await prisma.vehicle.findMany()
 
-    return vehicle
+    const vehicles = vehicleData.map((item) => {
+      return PrismaVehicleMapper.toDomainProps(item) as Vehicle
+    })
+
+    return vehicles
   }
 
-  async findById(id: string): Promise<Vehicle | null> {
+  async findById(id: string): Promise<VehicleProps | null> {
     const vehicle = await prisma.vehicle.findUnique({
       where: {
         id,
@@ -20,10 +25,10 @@ export class PrismaVehicleRepository implements VehicleRepository {
       return null
     }
 
-    return vehicle
+    return PrismaVehicleMapper.toDomainProps(vehicle)
   }
 
-  async findByPlate(plate: string): Promise<Vehicle | null> {
+  async findByPlate(plate: string): Promise<VehicleProps | null> {
     const vehicle = await prisma.vehicle.findUnique({
       where: {
         plate,
@@ -34,36 +39,41 @@ export class PrismaVehicleRepository implements VehicleRepository {
       return null
     }
 
-    return vehicle
+    return PrismaVehicleMapper.toDomainProps(vehicle)
   }
 
-  async findRentedStatusById(isRented: boolean): Promise<Vehicle[] | []> {
-    const vehicle = await prisma.vehicle.findMany({
+  async findRentedStatusById(isRentedStatus: boolean): Promise<VehicleProps[]> {
+    // console.log('\nisRentedStatus: ', isRentedStatus)
+    const vehiclesData = await prisma.vehicle.findMany({
       where: {
-        isRented,
+        isRented: isRentedStatus,
       },
     })
 
-    return vehicle
-  }
-
-  async updateRentedStatusById(
-    id: string,
-    isRented: boolean,
-  ): Promise<Vehicle> {
-    const vehicle = await prisma.vehicle.update({
-      where: {
-        id,
-      },
-      data: {
-        isRented,
-      },
+    const vehicles = vehiclesData.map((item) => {
+      return PrismaVehicleMapper.toDomainProps(item) as Vehicle
     })
 
-    return vehicle
+    return vehicles
   }
 
-  async update(data: Vehicle): Promise<Vehicle> {
+  // async updateRentedStatusById(
+  //   id: string,
+  //   isRented: boolean,
+  // ): Promise<Vehicle> {
+  //   const vehicle = await prisma.vehicle.update({
+  //     where: {
+  //       id,
+  //     },
+  //     data: {
+  //       isRented,
+  //     },
+  //   })
+
+  //   return vehicle
+  // }
+
+  async update(data: Partial<VehicleProps>): Promise<VehicleProps> {
     const vehicle = await prisma.vehicle.update({
       where: {
         id: data.id,
@@ -71,14 +81,16 @@ export class PrismaVehicleRepository implements VehicleRepository {
       data,
     })
 
-    return vehicle
+    return PrismaVehicleMapper.toDomainProps(vehicle)
   }
 
-  async create(data: Vehicle): Promise<Vehicle> {
+  async create(data: Vehicle): Promise<VehicleProps> {
+    const raw = PrismaVehicleMapper.toPrisma(data)
+
     const vehicle = await prisma.vehicle.create({
-      data,
+      data: raw,
     })
 
-    return vehicle
+    return PrismaVehicleMapper.toDomainProps(vehicle)
   }
 }

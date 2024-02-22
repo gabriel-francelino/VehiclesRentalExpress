@@ -1,10 +1,9 @@
 import { StatusCodes } from 'http-status-codes'
 import { AppError } from '../../error/AppError'
-import { Vehicle, VehicleProps } from '../../models/Vehicle'
-import { VehicleRepository } from '@/infra/database/repositories/IVehicleRepository'
-
+import { VehicleProps } from '../../models/Vehicle'
+import { VehicleRepository } from '../../../infra/database/repositories/IVehicleRepository'
 interface CreateVehicleServiceResponse {
-  vehicle: Vehicle
+  vehicle: VehicleProps
 }
 
 export class CreateVehicleService {
@@ -23,9 +22,7 @@ export class CreateVehicleService {
       )
     }
 
-    const vehicle = new Vehicle(vehicleData)
-
-    await this.vehicleRepository.create(vehicle)
+    const vehicle = await this.vehicleRepository.create(vehicleData)
 
     return {
       vehicle,

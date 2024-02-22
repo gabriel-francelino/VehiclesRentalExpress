@@ -1,23 +1,47 @@
 import { StatusCodes } from 'http-status-codes'
 import { AppError } from '../../error/AppError'
-import { Vehicle, VehicleProps } from '../../models/Vehicle'
+import { VehicleProps, VehicleType } from '../../models/Vehicle'
 import { VehicleRepository } from '@/infra/database/repositories/IVehicleRepository'
 
+interface UpdateVehicleServiceRequest {
+  id: string
+  model: string
+  color: string
+  type: VehicleType
+  plate: string
+  dailyRental: number
+}
+
 interface UpdateVehicleServiceResponse {
-  vehicle: Vehicle
+  vehicle: VehicleProps
 }
 export class UpdateVehicleService {
   constructor(private vehicleRepository: VehicleRepository) {}
-  async execute(data: Vehicle): Promise<UpdateVehicleServiceResponse> {
-    const customerData = await this.vehicleRepository.findById(data.id)
+  async execute({
+    id,
+    model,
+    color,
+    type,
+    plate,
+    dailyRental,
+  }: UpdateVehicleServiceRequest): Promise<UpdateVehicleServiceResponse> {
+    const vehicleData = await this.vehicleRepository.findById(id)
 
-    if (!customerData) {
+    if (!vehicleData) {
       throw new AppError('Vehicle not found', StatusCodes.NOT_FOUND)
     }
 
-    await this.vehicleRepository.update(customerData)
+    const data = {
+      id,
+      model,
+      color,
+      type,
+      plate,
+      dailyRental,
+      updatedAt: new Date(),
+    }
 
-    const vehicle: Vehicle = new Vehicle(customerData as VehicleProps)
+    const vehicle = await this.vehicleRepository.update(data)
 
     return {
       vehicle,

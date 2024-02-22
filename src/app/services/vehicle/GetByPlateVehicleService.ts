@@ -3,20 +3,20 @@ import { AppError } from '../../error/AppError'
 import { VehicleProps } from '../../models/Vehicle'
 import { VehicleRepository } from '@/infra/database/repositories/IVehicleRepository'
 
-interface GetByIdVehicleServiceRequest {
-  id: string
+interface GetByPlateVehicleServiceRequest {
+  plate: string
 }
 
-interface GetByIdVehicleServiceResponse {
+interface GetByPlateVehicleServiceResponse {
   vehicle: VehicleProps
 }
 
-export class GetByIdVehicleService {
+export class GetByPlateVehicleService {
   constructor(private vehicleRepository: VehicleRepository) {}
   async execute({
-    id,
-  }: GetByIdVehicleServiceRequest): Promise<GetByIdVehicleServiceResponse> {
-    const vehicle = await this.vehicleRepository.findById(id)
+    plate,
+  }: GetByPlateVehicleServiceRequest): Promise<GetByPlateVehicleServiceResponse> {
+    const vehicle = await this.vehicleRepository.findByPlate(plate)
 
     if (!vehicle) {
       throw new AppError('Vehicle not found', StatusCodes.NOT_FOUND)

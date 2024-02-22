@@ -22,7 +22,7 @@ export class Vehicle {
   constructor(props: Replace<VehicleProps, { createdAt?: Date }>) {
     this.props = {
       id: uuid(),
-      isRented: false,
+      // isRented: false,
       increasePorcentage: props.type === 'CAR' ? 0.1 : 0.05,
       createdAt: props.createdAt ?? new Date(),
       ...props,
