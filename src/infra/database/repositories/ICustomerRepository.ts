@@ -7,4 +7,5 @@ export interface CustomerRepository {
   updateHasRentById(id: string, hasRent: boolean): void
   update(customer: Partial<CustomerProps>): Promise<CustomerProps>
   create(data: CustomerProps): Promise<CustomerProps>
+  delete(id: string): Promise<void>
 }
