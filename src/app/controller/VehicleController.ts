@@ -7,6 +7,7 @@ import { GetAllVehicleService } from '../services/vehicle/GetAllVehicleService'
 import { UpdateVehicleService } from '../services/vehicle/UpdateVehicleService'
 import { GetByIdVehicleService } from '../services/vehicle/GetByIdVehicleService'
 import { GetAvailableVehicleService } from '../services/vehicle/GetAvailableVehicleService'
+import { GetByPlateVehicleService } from '../services/vehicle/GetByPlateVehicleService'
 
 class VehicleController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -87,6 +88,32 @@ class VehicleController {
       const getByIdVehicleService = new GetByIdVehicleService(vehicleRepository)
 
       const vehicle = await getByIdVehicleService.execute({ id })
+      res.status(StatusCodes.OK).send(vehicle)
+      // next();
+    } catch (error) {
+      if (error instanceof ZodError) {
+        res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ message: 'Validation error.', issues: error.format() })
+      }
+      next(error)
+    }
+  }
+
+  async getByPlate(req: Request, res: Response, next: NextFunction) {
+    try {
+      const getByPlateVehicleInParamsSchema = z.object({
+        plate: z.string(),
+      })
+
+      const { plate } = getByPlateVehicleInParamsSchema.parse(req.body)
+
+      const vehicleRepository = new PrismaVehicleRepository()
+      const getByPlateVehicleService = new GetByPlateVehicleService(
+        vehicleRepository,
+      )
+
+      const vehicle = await getByPlateVehicleService.execute({ plate })
       res.status(StatusCodes.OK).send(vehicle)
       // next();
     } catch (error) {

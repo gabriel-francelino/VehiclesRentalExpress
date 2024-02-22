@@ -9,6 +9,7 @@ vehicleRoutes.use(infoRequestMiddleware.execute)
 
 vehicleRoutes.post('/vehicles', vehicleController.create)
 vehicleRoutes.get('/vehicles/available', vehicleController.getAvailable)
+vehicleRoutes.get('/vehicles/plate', vehicleController.getByPlate)
 vehicleRoutes.get('/vehicles/:id', vehicleController.getById)
 vehicleRoutes.get('/vehicles', vehicleController.getAll)
 vehicleRoutes.put('/vehicles/:id', vehicleController.update)
