@@ -57,21 +57,16 @@ export class PrismaVehicleRepository implements VehicleRepository {
     return vehicles
   }
 
-  // async updateRentedStatusById(
-  //   id: string,
-  //   isRented: boolean,
-  // ): Promise<Vehicle> {
-  //   const vehicle = await prisma.vehicle.update({
-  //     where: {
-  //       id,
-  //     },
-  //     data: {
-  //       isRented,
-  //     },
-  //   })
-
-  //   return vehicle
-  // }
+  async updateRentedStatusById(id: string, isRented: boolean): Promise<void> {
+    await prisma.vehicle.update({
+      where: {
+        id,
+      },
+      data: {
+        isRented,
+      },
+    })
+  }
 
   async update(data: Partial<VehicleProps>): Promise<VehicleProps> {
     const vehicle = await prisma.vehicle.update({
@@ -92,5 +87,13 @@ export class PrismaVehicleRepository implements VehicleRepository {
     })
 
     return PrismaVehicleMapper.toDomainProps(vehicle)
+  }
+
+  async delete(id: string): Promise<void> {
+    await prisma.vehicle.delete({
+      where: {
+        id,
+      },
+    })
   }
 }
