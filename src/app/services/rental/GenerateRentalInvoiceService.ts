@@ -5,21 +5,24 @@ import { RentalRepository } from '@/infra/database/repositories/IRentalRepositor
 import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
 import { VehicleRepository } from '@/infra/database/repositories/IVehicleRepository'
 
+interface GenerateRentalInvoiceServiceRequest {
+  id: string
+}
 interface GenerateRentalInvoiceServiceResponse {
   invoice: Invoice
 }
 
 export class GenerateRentalInvoiceService {
   constructor(
-    private rentalRepository: RentalRepository,
     private customerRepository: CustomerRepository,
     private vehicleRepository: VehicleRepository,
+    private rentalRepository: RentalRepository,
   ) {}
 
-  async execute(
-    rentalId: string,
-  ): Promise<GenerateRentalInvoiceServiceResponse> {
-    const rental = await this.rentalRepository.findById(rentalId)
+  async execute({
+    id,
+  }: GenerateRentalInvoiceServiceRequest): Promise<GenerateRentalInvoiceServiceResponse> {
+    const rental = await this.rentalRepository.findById(id)
 
     if (!rental) {
       throw new AppError('Rental not found', StatusCodes.NOT_FOUND)

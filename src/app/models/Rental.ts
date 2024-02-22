@@ -23,7 +23,7 @@ export interface Invoice {
   vehicleRental: number
   rentalDate: Date
   devolutionDate: Date
-  rentalValue: number
+  rentalValue?: number
 }
 
 export class Rental {
