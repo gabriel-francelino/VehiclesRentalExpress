@@ -1,11 +1,10 @@
-import { Rental, Prisma } from '@prisma/client'
+import { RentalProps } from '@/app/models/Rental'
 
 export interface RentalRepository {
-  findAll(): Promise<Rental[] | []>
-  findById(id: string): Promise<Rental | null>
-  // findByCustomerCpf(cpf: string): Promise<Rental | null>
-  // findByPlate(plateId: string): Promise<Rental | null>
+  findAll(): Promise<RentalProps[] | []>
+  findById(id: string): Promise<RentalProps | null>
+  findRentalsByCustomerId(id: string): Promise<RentalProps[]>
   updateDevolutionById(id: string, devolutionDate: Date): void
-  update(rental: Rental): Promise<Rental>
-  create(data: Prisma.RentalUncheckedCreateInput): Promise<Rental>
+  update(rental: RentalProps): Promise<RentalProps>
+  create(data: RentalProps): Promise<RentalProps>
 }

@@ -4,14 +4,17 @@ import { RentalRepository } from '@/infra/database/repositories/IRentalRepositor
 import { VehicleRepository } from '@/infra/database/repositories/IVehicleRepository'
 import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
 
+interface DevolutionRentalServiceRequest {
+  id: string
+}
 export class DevolutionRentalService {
   constructor(
-    private rentalRepository: RentalRepository,
-    private vehicleRepository: VehicleRepository,
     private customerRepository: CustomerRepository,
+    private vehicleRepository: VehicleRepository,
+    private rentalRepository: RentalRepository,
   ) {}
 
-  async execute(id: string) {
+  async execute({ id }: DevolutionRentalServiceRequest) {
     const rentalExists = await this.rentalRepository.findById(id)
 
     if (!rentalExists) {
@@ -19,7 +22,7 @@ export class DevolutionRentalService {
     }
 
     await Promise.all([
-      this.rentalRepository.updateDevolutionById(rentalExists.id, new Date()),
+      this.rentalRepository.updateDevolutionById(id, new Date()),
       this.vehicleRepository.updateRentedStatusById(
         rentalExists.vehicleId,
         false,

@@ -1,19 +1,18 @@
-// import { Router } from 'express'
-// import { rentalController } from '@/app/controller/RentalController'
-// import { infoRequestMiddleware } from './/middlewares/InfoRequestMiddleware'
-// import { errorHandlerMiddleware } from './middlewares/ErrorHandlerMiddleware'
-// import { validateRentalData } from './middlewares/ValidationRequestDataMiddleware'
+import { Router } from 'express'
+import { rentalController } from '@/app/controller/RentalController'
+import { infoRequestMiddleware } from './/middlewares/InfoRequestMiddleware'
+import { errorHandlerMiddleware } from './middlewares/ErrorHandlerMiddleware'
 
-// const rentalRoutes = Router()
+const rentalRoutes = Router()
 
-// rentalRoutes.use(infoRequestMiddleware.execute)
+rentalRoutes.use(infoRequestMiddleware.execute)
 
-// rentalRoutes.post('/rents', validateRentalData, rentalController.create)
-// rentalRoutes.get('/rents/:id/invoice', rentalController.generateInvoice)
-// rentalRoutes.get('/rents/active', rentalController.getAllActive)
-// rentalRoutes.get('/rents', rentalController.getAll)
-// rentalRoutes.delete('/rents/:id', rentalController.return)
+rentalRoutes.post('/rents', rentalController.create)
+rentalRoutes.get('/rents/:id/invoice', rentalController.generateInvoice)
+rentalRoutes.get('/rents/customer/:id', rentalController.getAllByCustomer)
+rentalRoutes.get('/rents', rentalController.getAll)
+rentalRoutes.delete('/rents/:id', rentalController.devolution)
 
-// rentalRoutes.use(errorHandlerMiddleware.execute)
+rentalRoutes.use(errorHandlerMiddleware.execute)
 
-// export { rentalRoutes }
+export { rentalRoutes }
