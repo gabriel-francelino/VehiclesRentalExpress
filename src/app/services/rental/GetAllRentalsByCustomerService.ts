@@ -1,8 +1,8 @@
-import { RentalRepository } from '@/infra/database/repositories/IRentalRepository'
+import { RentalRepository } from '../../../infra/database/repositories/IRentalRepository'
 import { RentalProps } from '../../models/Rental'
-import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
+import { CustomerRepository } from '../../../infra/database/repositories/ICustomerRepository'
 import { StatusCodes } from 'http-status-codes'
-import { AppError } from '@/app/error/AppError'
+import { AppError } from '../../error/AppError'
 
 interface GetAllRentalsByCustomerServiceRequest {
   customerId: string

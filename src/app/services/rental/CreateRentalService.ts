@@ -1,14 +1,14 @@
 import { StatusCodes } from 'http-status-codes'
 import { AppError } from '../../error/AppError'
 import { Rental, RentalProps } from '../../models/Rental'
-import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
-import { VehicleRepository } from '@/infra/database/repositories/IVehicleRepository'
-import { RentalRepository } from '@/infra/database/repositories/IRentalRepository'
+import { CustomerRepository } from '../../../infra/database/repositories/ICustomerRepository'
+import { VehicleRepository } from '../../../infra/database/repositories/IVehicleRepository'
+import { RentalRepository } from '../../../infra/database/repositories/IRentalRepository'
 import { VehicleType } from '@prisma/client'
 import {
   CalculateRentalValueRequest,
   calculateRentalValue,
-} from '@/app/utils/calculateRentalValue'
+} from '../../utils/calculateRentalValue'
 
 interface CreateRentalServiceResponse {
   rental: Rental
@@ -79,9 +79,13 @@ export class CreateRentalService {
       devolutionDate,
     })
 
+    // só para parar de dar erro
+    const vehicleIncreasePorcentage: number =
+      vehicle.type === VehicleType.CAR ? 0.1 : 0.2
+
     const dataToCalculate: CalculateRentalValueRequest = {
       dailyRental: vehicle.dailyRental,
-      increasePorcentage: vehicle.increasePorcentage,
+      increasePorcentage: vehicleIncreasePorcentage,
       rentalDate,
       devolutionDate,
     }
