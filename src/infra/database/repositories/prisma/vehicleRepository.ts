@@ -14,19 +14,19 @@ export class PrismaVehicleRepository implements VehicleRepository {
     return vehicles
   }
 
-  // async findById(id: string): Promise<Vehicle | null> {
-  //   const vehicle = await prisma.vehicle.findUnique({
-  //     where: {
-  //       id,
-  //     },
-  //   })
+  async findById(id: string): Promise<VehicleProps | null> {
+    const vehicle = await prisma.vehicle.findUnique({
+      where: {
+        id,
+      },
+    })
 
-  //   if (!vehicle) {
-  //     return null
-  //   }
+    if (!vehicle) {
+      return null
+    }
 
-  //   return vehicle
-  // }
+    return PrismaVehicleMapper.toDomainProps(vehicle)
+  }
 
   async findByPlate(plate: string): Promise<VehicleProps | null> {
     const vehicle = await prisma.vehicle.findUnique({
@@ -42,14 +42,14 @@ export class PrismaVehicleRepository implements VehicleRepository {
     return PrismaVehicleMapper.toDomainProps(vehicle)
   }
 
-  // async findRentedStatusById(isRented: boolean): Promise<Vehicle[] | []> {
-  //   const vehicle = await prisma.vehicle.findMany({
+  // async findRentedStatusById(isRented: boolean): Promise<VehicleProps[]> {
+  //   const vehicles = await prisma.vehicle.findMany({
   //     where: {
   //       isRented,
   //     },
   //   })
 
-  //   return vehicle
+  //   return PrismaVehicleMapper.toDomainProps(vehicles)
   // }
 
   // async updateRentedStatusById(
@@ -68,16 +68,16 @@ export class PrismaVehicleRepository implements VehicleRepository {
   //   return vehicle
   // }
 
-  // async update(data: Vehicle): Promise<Vehicle> {
-  //   const vehicle = await prisma.vehicle.update({
-  //     where: {
-  //       id: data.id,
-  //     },
-  //     data,
-  //   })
+  async update(data: Partial<VehicleProps>): Promise<VehicleProps> {
+    const vehicle = await prisma.vehicle.update({
+      where: {
+        id: data.id,
+      },
+      data,
+    })
 
-  //   return vehicle
-  // }
+    return PrismaVehicleMapper.toDomainProps(vehicle)
+  }
 
   async create(data: Vehicle): Promise<VehicleProps> {
     const raw = PrismaVehicleMapper.toPrisma(data)

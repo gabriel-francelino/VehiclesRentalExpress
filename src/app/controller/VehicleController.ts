@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes'
 import { ZodError, z } from 'zod'
 import { CreateVehicleService } from '../services/vehicle/CreateVehicleService'
 import { GetAllVehicleService } from '../services/vehicle/GetAllVehicleService'
+import { UpdateVehicleService } from '../services/vehicle/UpdateVehicleService'
 
 class VehicleController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -77,14 +78,47 @@ class VehicleController {
   //       next(error)
   //     }
   //   }
-  //   update(req: Request, res: Response, next: NextFunction) {
-  //     try {
-  //       const updatedVehicle = updateVehicleService.execute(req.body)
-  //       res.status(StatusCodes.OK).send(updatedVehicle)
-  //     } catch (error) {
-  //       next(error)
-  //     }
-  //   }
+
+  async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const updateVehicleInParamsSchema = z.object({
+        id: z.string(),
+      })
+
+      const updateVehicleInBodySchema = z.object({
+        model: z.string(),
+        color: z.string(),
+        type: z.enum(['CAR', 'MOTORCYCLE']),
+        plate: z.string(),
+        dailyRental: z.number().positive(),
+      })
+
+      const { id } = updateVehicleInParamsSchema.parse(req.params)
+      const { model, color, type, plate, dailyRental } =
+        updateVehicleInBodySchema.parse(req.body)
+
+      const vehicleRepository = new PrismaVehicleRepository()
+      const updateVehicleService = new UpdateVehicleService(vehicleRepository)
+
+      const updatedVehicle = await updateVehicleService.execute({
+        id,
+        model,
+        color,
+        type,
+        plate,
+        dailyRental,
+      })
+      res.status(StatusCodes.OK).send(updatedVehicle)
+    } catch (error) {
+      if (error instanceof ZodError) {
+        res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ message: 'Validation error.', issues: error.format() })
+      }
+      next(error)
+    }
+  }
+
   //   delete(req: Request, res: Response, next: NextFunction) {
   //     try {
   //       const { id } = req.params
