@@ -1,11 +1,11 @@
-import { Vehicle } from '@prisma/client'
+import { VehicleProps } from '../../../app/models/Vehicle'
 
 export interface VehicleRepository {
-  findAll(): Promise<Vehicle[] | []>
-  findById(id: string): Promise<Vehicle | null>
-  findByPlate(plate: string): Promise<Vehicle | null>
-  findRentedStatusById(isRented: boolean): Promise<Vehicle[] | []>
-  updateRentedStatusById(id: string, isRented: boolean): void
-  update(vehicle: Vehicle): Promise<Vehicle>
-  create(data: Vehicle): Promise<Vehicle>
+  // findAll(): Promise<VehicleProps[]>
+  // findById(id: string): Promise<VehicleProps | null>
+  findByPlate(plate: string): Promise<VehicleProps | null>
+  // findRentedStatusById(isRented: boolean): Promise<VehicleProps[] | []>
+  // updateRentedStatusById(id: string, isRented: boolean): void
+  // update(vehicle: Partial<VehicleProps>): Promise<VehicleProps>
+  create(data: VehicleProps): Promise<VehicleProps>
 }

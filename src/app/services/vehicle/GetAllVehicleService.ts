@@ -7,15 +7,15 @@ interface GetAllVehicleServiceResponse {
 
 export class GetAllVehicleService {
   constructor(private vehicleRepository: VehicleRepository) {}
-  async execute(): Promise<GetAllVehicleServiceResponse> {
-    const vehiclesData = await this.vehicleRepository.findAll()
+  // async execute(): Promise<GetAllVehicleServiceResponse> {
+  //   const vehiclesData = await this.vehicleRepository.findAll()
 
-    const vehicles: Vehicle[] = vehiclesData.map(
-      (customerData) => new Vehicle(customerData as VehicleProps),
-    )
+  //   const vehicles: Vehicle[] = vehiclesData.map(
+  //     (customerData) => new Vehicle(customerData as VehicleProps),
+  //   )
 
-    return {
-      vehicles,
-    }
-  }
+  //   return {
+  //     vehicles,
+  //   }
+  // }
 }

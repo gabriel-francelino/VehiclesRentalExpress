@@ -13,19 +13,19 @@ interface GetByIdVehicleServiceResponse {
 
 export class GetByIdVehicleService {
   constructor(private vehicleRepository: VehicleRepository) {}
-  async execute({
-    id,
-  }: GetByIdVehicleServiceRequest): Promise<GetByIdVehicleServiceResponse> {
-    const vehicleExists = await this.vehicleRepository.findById(id)
+  // async execute({
+  //   id,
+  // }: GetByIdVehicleServiceRequest): Promise<GetByIdVehicleServiceResponse> {
+  //   const vehicleExists = await this.vehicleRepository.findById(id)
 
-    if (!vehicleExists) {
-      throw new AppError('Vehicle not found', StatusCodes.NOT_FOUND)
-    }
+  //   if (!vehicleExists) {
+  //     throw new AppError('Vehicle not found', StatusCodes.NOT_FOUND)
+  //   }
 
-    const vehicle = new Vehicle(vehicleExists)
+  //   const vehicle = new Vehicle(vehicleExists)
 
-    return {
-      vehicle,
-    }
-  }
+  //   return {
+  //     vehicle,
+  //   }
+  // }
 }

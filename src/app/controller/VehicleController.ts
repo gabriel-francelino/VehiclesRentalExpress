@@ -1,79 +1,96 @@
-// import { NextFunction, Request, Response } from 'express'
-// import { StatusCodes } from 'http-status-codes'
+import { PrismaVehicleRepository } from '../../infra/database/repositories/prisma/vehicleRepository'
+import { NextFunction, Request, Response } from 'express'
+import { StatusCodes } from 'http-status-codes'
+import { ZodError, z } from 'zod'
+import { CreateVehicleService } from '../services/vehicle/CreateVehicleService'
 
-// import { Vehicle } from '@/models/Vehicle'
-// import { createVehicleService } from '@/app/services/vehicle/CreateVehicleService'
-// import { getAllVehicleService } from '@/app/services/vehicle/GetAllVehicleService'
-// import { getByIdVehicleService } from '@/app/services/vehicle/GetByIdVehicleService'
-// import { deleteVehicleService } from '@/app/services/vehicle/DeleteVehicleService'
-// import { getAvailableVehicleService } from '@/app/services/vehicle/GetAvailableVehicleService'
-// import { updateVehicleService } from '@/app/services/vehicle/UpdateVehicleService'
+class VehicleController {
+  async create(req: Request, res: Response, next: NextFunction) {
+    try {
+      const createVehicleInBodySchema = z.object({
+        model: z.string(),
+        color: z.string(),
+        type: z.enum(['CAR', 'MOTORCYCLE']),
+        plate: z.string(),
+        dailyRental: z.number().positive(),
+      })
 
-// class VehicleController {
-//   create(req: Request, res: Response, next: NextFunction) {
-//     try {
-//       const { model, color, type, plate, dailyRental } = req.body
-//       const vehicle = new Vehicle({ model, color, type, plate, dailyRental })
-//       const newVehicle = createVehicleService.execute(vehicle)
-//       res.status(StatusCodes.CREATED).send(newVehicle)
-//       // next();
-//     } catch (error) {
-//       next(error)
-//     }
-//   }
+      const { model, color, type, plate, dailyRental } =
+        createVehicleInBodySchema.parse(req.body)
 
-//   getAvailable(req: Request, res: Response, next: NextFunction) {
-//     try {
-//       const availableVehicles = getAvailableVehicleService.execute()
-//       res.status(StatusCodes.OK).send(availableVehicles)
-//       // next();
-//     } catch (error) {
-//       next(error)
-//     }
-//   }
+      const vehicleRepository = new PrismaVehicleRepository()
+      const createVehicleService = new CreateVehicleService(vehicleRepository)
 
-//   getAll(req: Request, res: Response, next: NextFunction) {
-//     try {
-//       const vehicles = getAllVehicleService.execute()
-//       res.status(StatusCodes.OK).send(vehicles)
-//       // next();
-//     } catch (error) {
-//       next(error)
-//     }
-//   }
+      const vehicle = await createVehicleService.execute({
+        model,
+        color,
+        type,
+        plate,
+        dailyRental,
+        isRented: false,
+        createdAt: new Date(),
+      })
 
-//   getById(req: Request, res: Response, next: NextFunction) {
-//     try {
-//       const { id } = req.params
-//       const vehicle = getByIdVehicleService.execute(id)
-//       res.status(StatusCodes.OK).send(vehicle)
-//       // next();
-//     } catch (error) {
-//       next(error)
-//     }
-//   }
+      res.status(StatusCodes.CREATED).send(vehicle)
+      // next();
+    } catch (error) {
+      if (error instanceof ZodError) {
+        res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ message: 'Validation error.', issues: error.format() })
+      }
+      next(error)
+    }
+  }
 
-//   update(req: Request, res: Response, next: NextFunction) {
-//     try {
-//       const updatedVehicle = updateVehicleService.execute(req.body)
-//       res.status(StatusCodes.OK).send(updatedVehicle)
-//     } catch (error) {
-//       next(error)
-//     }
-//   }
+  //   getAvailable(req: Request, res: Response, next: NextFunction) {
+  //     try {
+  //       const availableVehicles = getAvailableVehicleService.execute()
+  //       res.status(StatusCodes.OK).send(availableVehicles)
+  //       // next();
+  //     } catch (error) {
+  //       next(error)
+  //     }
+  //   }
+  //   getAll(req: Request, res: Response, next: NextFunction) {
+  //     try {
+  //       const vehicles = getAllVehicleService.execute()
+  //       res.status(StatusCodes.OK).send(vehicles)
+  //       // next();
+  //     } catch (error) {
+  //       next(error)
+  //     }
+  //   }
+  //   getById(req: Request, res: Response, next: NextFunction) {
+  //     try {
+  //       const { id } = req.params
+  //       const vehicle = getByIdVehicleService.execute(id)
+  //       res.status(StatusCodes.OK).send(vehicle)
+  //       // next();
+  //     } catch (error) {
+  //       next(error)
+  //     }
+  //   }
+  //   update(req: Request, res: Response, next: NextFunction) {
+  //     try {
+  //       const updatedVehicle = updateVehicleService.execute(req.body)
+  //       res.status(StatusCodes.OK).send(updatedVehicle)
+  //     } catch (error) {
+  //       next(error)
+  //     }
+  //   }
+  //   delete(req: Request, res: Response, next: NextFunction) {
+  //     try {
+  //       const { id } = req.params
+  //       deleteVehicleService.execute(id)
+  //       res.status(StatusCodes.NO_CONTENT).send()
+  //       // next();
+  //     } catch (error) {
+  //       next(error)
+  //     }
+  //   }
+}
 
-//   delete(req: Request, res: Response, next: NextFunction) {
-//     try {
-//       const { id } = req.params
-//       deleteVehicleService.execute(id)
-//       res.status(StatusCodes.NO_CONTENT).send()
-//       // next();
-//     } catch (error) {
-//       next(error)
-//     }
-//   }
-// }
+const vehicleController = new VehicleController()
 
-// const vehicleController = new VehicleController()
-
-// export { vehicleController }
+export { vehicleController }

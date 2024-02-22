@@ -49,7 +49,7 @@ model Vehicle {
   type               VehicleType
   plate              String      @unique
   dailyRental        Float       @map("daily_rental")
-  isRented           Boolean
+  isRented           Boolean     @default(false) @map("is_rented")
   increasePorcentage Float       @map("increase_porcentage")
   createdAt          DateTime    @default(now()) @map("created_at")
   updatedAt          DateTime?   @updatedAt @map("updated_at")
