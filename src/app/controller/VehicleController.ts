@@ -6,6 +6,7 @@ import { CreateVehicleService } from '../services/vehicle/CreateVehicleService'
 import { GetAllVehicleService } from '../services/vehicle/GetAllVehicleService'
 import { UpdateVehicleService } from '../services/vehicle/UpdateVehicleService'
 import { GetByIdVehicleService } from '../services/vehicle/GetByIdVehicleService'
+import { GetAvailableVehicleService } from '../services/vehicle/GetAvailableVehicleService'
 
 class VehicleController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -46,15 +47,20 @@ class VehicleController {
     }
   }
 
-  //   getAvailable(req: Request, res: Response, next: NextFunction) {
-  //     try {
-  //       const availableVehicles = getAvailableVehicleService.execute()
-  //       res.status(StatusCodes.OK).send(availableVehicles)
-  //       // next();
-  //     } catch (error) {
-  //       next(error)
-  //     }
-  //   }
+  async getAvailable(req: Request, res: Response, next: NextFunction) {
+    try {
+      const vehicleRepository = new PrismaVehicleRepository()
+      const getAvailableVehicleService = new GetAvailableVehicleService(
+        vehicleRepository,
+      )
+
+      const availableVehicles = await getAvailableVehicleService.execute()
+      res.status(StatusCodes.OK).send(availableVehicles)
+      // next();
+    } catch (error) {
+      next(error)
+    }
+  }
 
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {

@@ -42,15 +42,20 @@ export class PrismaVehicleRepository implements VehicleRepository {
     return PrismaVehicleMapper.toDomainProps(vehicle)
   }
 
-  // async findRentedStatusById(isRented: boolean): Promise<VehicleProps[]> {
-  //   const vehicles = await prisma.vehicle.findMany({
-  //     where: {
-  //       isRented,
-  //     },
-  //   })
+  async findRentedStatusById(isRentedStatus: boolean): Promise<VehicleProps[]> {
+    // console.log('\nisRentedStatus: ', isRentedStatus)
+    const vehiclesData = await prisma.vehicle.findMany({
+      where: {
+        isRented: isRentedStatus,
+      },
+    })
 
-  //   return PrismaVehicleMapper.toDomainProps(vehicles)
-  // }
+    const vehicles = vehiclesData.map((item) => {
+      return PrismaVehicleMapper.toDomainProps(item) as Vehicle
+    })
+
+    return vehicles
+  }
 
   // async updateRentedStatusById(
   //   id: string,
