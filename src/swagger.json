@@ -1,0 +1,151 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Vehicles Rental API",
+    "description": "This is a simple API for a vehicles rental service.",
+    "termsOfService": "http://localhost:3000/terms",
+    "contact": {
+      "email": "wagnerjr.nascimento10@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/v1",
+      "description": "development API"
+    }
+  ],
+  "paths": {
+    "/customers": {
+      "post": {
+        "summary": "Create Customer",
+        "description":"This route to create customer",
+        "tags": ["Customer"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Customer"
+              },
+              "examples": {
+                "customer": {
+                  "value": {
+                    "cpf": "12345678910",
+                    "name": "John Doe",
+                    "email": "john.doe@teste.com",
+                    "dateOfBirth": "2001-01-01T00:00:00.000Z",
+                    "driverLicense": "AB"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "409": {
+            "description": "Customer with this CPF already exists!"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vehicle": {
+      "post": {
+        "summary": "Create Vehicle",
+        "description":"This route to create vehicle",
+        "tags": ["Vehicle"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Vehicle"
+              },
+              "examples": {
+                "vehicle": {
+                  "value": {
+                    "type": "conversivel",
+                    "model": "Kombi",
+                    "color": "preta",
+                    "plate": "BR123456",
+                    "dailyRental": "2024-01-01T00:00:00.000Z"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "409": {
+            "description": "Vehicle with this plate already exists!"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Vehicle"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Vehicle": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "plate": {
+            "type": "string"
+          },
+          "dailyRental": {
+            "type": "string"
+          }
+        }
+      },
+      "Customer": {
+        "type": "object",
+        "properties": {
+          "cpf": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "dateOfBirth": {
+            "type": "string"
+          },
+          "driverLicense": {
+            "type": "string",
+            "enum": ["A", "B", "C", "D", "E", "AB"]
+          }
+        }
+      }
+    }
+  }
+}

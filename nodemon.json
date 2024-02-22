@@ -1,6 +1,5 @@
 {
-  "ignore": ["node_modules", "**/*.test.ts", "**/*.spec.ts"],
+  "ignore": ["node_modules", "prismaService.ts", "**/*.test.ts", "**/*.spec.ts"],
   "watch": ["src"],
-  "exec": "npm start",
   "ext": "ts"
 }
