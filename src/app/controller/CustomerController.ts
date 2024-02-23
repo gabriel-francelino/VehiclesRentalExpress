@@ -7,6 +7,7 @@ import { GetAllCustomerService } from '../services/customer/GetAllCustomerServic
 import { GetByIdCustomerService } from '../services/customer/GetByIdCustomerService'
 import { GetByCpfCustomerService } from '../services/customer/GetByCpfCustomerService'
 import { UpdateCustomerService } from '../services/customer/UpdateCustomerService'
+import { DeleteCustomerService } from '../services/customer/DeleteCustomerService'
 
 class CustomerController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -71,7 +72,7 @@ class CustomerController {
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const getByIdCustomerInParamsSchema = z.object({
-        id: z.string(),
+        id: z.string().uuid(),
       })
 
       const { id } = getByIdCustomerInParamsSchema.parse(req.params)
@@ -128,7 +129,7 @@ class CustomerController {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const updateCustomerInParamsSchema = z.object({
-        id: z.string(),
+        id: z.string().uuid(),
       })
 
       const updateCustomerInBodySchema = z.object({
@@ -155,6 +156,31 @@ class CustomerController {
         driverLicense,
       })
       res.status(StatusCodes.OK).send(updatedCustomer)
+    } catch (error) {
+      if (error instanceof ZodError) {
+        res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ message: 'Validation error.', issues: error.format() })
+      }
+      next(error)
+    }
+  }
+
+  async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const deleteCustomerInParamsSchema = z.object({
+        id: z.string().uuid(),
+      })
+
+      const { id } = deleteCustomerInParamsSchema.parse(req.params)
+
+      const customerRepository = new PrismaCustomerRepository()
+      const deleteCustomerService = new DeleteCustomerService(
+        customerRepository,
+      )
+
+      await deleteCustomerService.execute(id)
+      res.status(StatusCodes.NO_CONTENT).send()
     } catch (error) {
       if (error instanceof ZodError) {
         res

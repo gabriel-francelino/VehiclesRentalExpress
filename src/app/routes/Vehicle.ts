@@ -13,7 +13,7 @@ vehicleRoutes.get('/vehicles/plate', vehicleController.getByPlate)
 vehicleRoutes.get('/vehicles/:id', vehicleController.getById)
 vehicleRoutes.get('/vehicles', vehicleController.getAll)
 vehicleRoutes.put('/vehicles/:id', vehicleController.update)
-// vehicleRoutes.delete('/vehicles/:id', vehicleController.delete)
+vehicleRoutes.delete('/vehicles/:id', vehicleController.delete)
 
 vehicleRoutes.use(errorHandlerMiddleware.execute)
 

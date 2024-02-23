@@ -1,7 +1,6 @@
 import { RentalRepository } from '../IRentalRepository'
 import { prisma } from '../../prismaService'
-import { Rental } from '@prisma/client'
-import { RentalProps } from '@/app/models/Rental'
+import { Rental, RentalProps } from '../../../../app/models/Rental'
 import { PrismaRentalMapper } from './mappers/prismaRentalMapper'
 
 export class PrismaRentalRepository implements RentalRepository {
@@ -62,12 +61,14 @@ export class PrismaRentalRepository implements RentalRepository {
       data,
     })
 
-    return rental
+    return PrismaRentalMapper.toDomainProps(rental) as Rental
   }
 
   async create(data: Rental): Promise<RentalProps> {
+    const raw = PrismaRentalMapper.toPrisma(data)
+
     const rental = await prisma.rental.create({
-      data,
+      data: raw,
     })
 
     return PrismaRentalMapper.toDomainProps(rental)

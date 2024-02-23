@@ -1,8 +1,8 @@
 import { StatusCodes } from 'http-status-codes'
 import { AppError } from '../../error/AppError'
-import { RentalRepository } from '@/infra/database/repositories/IRentalRepository'
-import { VehicleRepository } from '@/infra/database/repositories/IVehicleRepository'
-import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
+import { RentalRepository } from '../../../infra/database/repositories/IRentalRepository'
+import { VehicleRepository } from '../../../infra/database/repositories/IVehicleRepository'
+import { CustomerRepository } from '../../../infra/database/repositories/ICustomerRepository'
 
 interface DevolutionRentalServiceRequest {
   id: string

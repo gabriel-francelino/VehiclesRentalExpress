@@ -87,4 +87,12 @@ export class PrismaCustomerRepository implements CustomerRepository {
 
     return PrismaCustomerMapper.toDomainProps(customer)
   }
+
+  async delete(id: string): Promise<void> {
+    await prisma.customer.delete({
+      where: {
+        id,
+      },
+    })
+  }
 }
