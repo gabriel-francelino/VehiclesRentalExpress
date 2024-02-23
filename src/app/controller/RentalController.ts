@@ -14,8 +14,8 @@ class RentalController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
       const createRentalInBodySchema = z.object({
-        customerId: z.string(),
-        vehicleId: z.string(),
+        customerId: z.string().uuid(),
+        vehicleId: z.string().uuid(),
         devolutionDate: z.string().refine(
           (dateString) => {
             return !isNaN(Date.parse(dateString))
@@ -47,7 +47,6 @@ class RentalController {
         vehicleId,
         rentalDate: new Date(rentalDate),
         devolutionDate: new Date(devolutionDate),
-        createdAt: new Date(),
       })
 
       res.status(StatusCodes.CREATED).send(rental)
@@ -64,7 +63,7 @@ class RentalController {
   async devolution(req: Request, res: Response, next: NextFunction) {
     try {
       const devolutionInParamsSchema = z.object({
-        id: z.string(),
+        id: z.string().uuid(),
       })
 
       const { id } = devolutionInParamsSchema.parse(req.params)
@@ -94,7 +93,7 @@ class RentalController {
   async generateInvoice(req: Request, res: Response, next: NextFunction) {
     try {
       const devolutionInParamsSchema = z.object({
-        id: z.string(),
+        id: z.string().uuid(),
       })
 
       const { id } = devolutionInParamsSchema.parse(req.params)
@@ -124,7 +123,7 @@ class RentalController {
   async getAllByCustomer(req: Request, res: Response, next: NextFunction) {
     try {
       const getAllRentalByCustomerInParamsSchema = z.object({
-        customerId: z.string(),
+        customerId: z.string().uuid(),
       })
 
       const { customerId } = getAllRentalByCustomerInParamsSchema.parse(

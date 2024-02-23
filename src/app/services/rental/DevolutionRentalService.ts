@@ -21,13 +21,13 @@ export class DevolutionRentalService {
       throw new AppError('Rental not found', StatusCodes.NOT_FOUND)
     }
 
-    // await Promise.all([
-    //   this.rentalRepository.updateDevolutionById(id, new Date()),
-    //   this.vehicleRepository.updateRentedStatusById(
-    //     rentalExists.vehicleId,
-    //     false,
-    //   ),
-    //   this.customerRepository.updateHasRentById(rentalExists.customerId, false),
-    // ])
+    await Promise.all([
+      this.rentalRepository.updateDevolutionById(id, new Date()),
+      this.vehicleRepository.updateRentedStatusById(
+        rentalExists.vehicleId,
+        false,
+      ),
+      this.customerRepository.updateHasRentById(rentalExists.customerId, false),
+    ])
   }
 }

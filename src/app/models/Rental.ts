@@ -39,27 +39,28 @@ export class Rental {
   }
 
   get id(): string {
-    return this.id
+    return this.props.id ?? ''
   }
 
   get customerId(): string {
-    return this.customerId
+    return this.props.customerId
   }
 
   get vehicleId(): string {
-    return this.vehicleId
+    return this.props.vehicleId
   }
 
   get rentalDate(): Date {
-    return this.rentalDate
+    return this.props.rentalDate
   }
 
   get devolutionDate(): Date {
-    return this.devolutionDate
+    return this.props.devolutionDate
   }
 
   get rentalValue(): number {
-    return this.rentalValue
+    // const value = this.props.props.rentalValue ? this.props.props.rentalValue : 0.0
+    return this.props.rentalValue ?? 0.0
   }
 
   get updatedAt(): Date | null {
@@ -73,22 +74,22 @@ export class Rental {
   }
 
   set customerId(customer: string) {
-    this.customerId = customer
+    this.props.customerId = customer
   }
 
   set vehicleId(vehicle: string) {
-    this.vehicleId = vehicle
+    this.props.vehicleId = vehicle
   }
 
   set rentalDate(rentalDate: Date) {
-    this.rentalDate = rentalDate
+    this.props.rentalDate = rentalDate
   }
 
   set devolutionDate(devolutionDate: Date) {
-    this.devolutionDate = devolutionDate
+    this.props.devolutionDate = devolutionDate
   }
 
   set rentalValue(rentalValue: number) {
-    this.rentalValue = rentalValue
+    this.props.rentalValue = rentalValue
   }
 }
