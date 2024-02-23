@@ -1,7 +1,10 @@
-import { Replace } from '@/helpers/replace'
+import { Replace } from '../../helpers/replace'
 import { v4 as uuid } from 'uuid'
 
-export type VehicleType = 'CAR' | 'MOTORCYCLE'
+export enum VehicleType {
+  CAR = 'CAR',
+  MOTORCYCLE = 'MOTORCYCLE',
+}
 
 export interface VehicleProps {
   id?: string
@@ -16,14 +19,19 @@ export interface VehicleProps {
   createdAt: Date
 }
 
+export enum IncreasePorcentage {
+  CAR = 0.1,
+  MOTORCYCLE = 0.05,
+}
+
 export class Vehicle {
   private props: VehicleProps
 
   constructor(props: Replace<VehicleProps, { createdAt?: Date }>) {
     this.props = {
       id: uuid(),
-      // isRented: false,
-      increasePorcentage: props.type === 'CAR' ? 0.1 : 0.05,
+      isRented: false,
+      increasePorcentage: Vehicle.porcentageByVehicleType(props.type),
       createdAt: props.createdAt ?? new Date(),
       ...props,
     }
@@ -107,5 +115,16 @@ export class Vehicle {
 
   set increasePorcentage(newIncreasePorcentage: number) {
     this.increasePorcentage = newIncreasePorcentage
+  }
+
+  static porcentageByVehicleType(type: VehicleType) {
+    switch (type) {
+      case VehicleType.CAR:
+        return IncreasePorcentage.CAR
+      case VehicleType.MOTORCYCLE:
+        return IncreasePorcentage.MOTORCYCLE
+      default:
+        throw new Error(`Tipo de veículo inválido: ${type}`)
+    }
   }
 }

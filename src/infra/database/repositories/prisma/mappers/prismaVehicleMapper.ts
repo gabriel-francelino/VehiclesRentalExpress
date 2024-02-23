@@ -51,8 +51,8 @@ export class PrismaVehicleMapper {
 
   private static mapVehicleType(rawType: string): VehicleType {
     switch (rawType) {
-      case 'CAR':
-      case 'MOTORCYCLE':
+      case VehicleType.CAR:
+      case VehicleType.MOTORCYCLE:
         return rawType
       default:
         throw new Error(`Invalid driver license: ${rawType}`)

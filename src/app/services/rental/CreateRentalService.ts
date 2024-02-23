@@ -4,11 +4,11 @@ import { Rental, RentalProps } from '../../models/Rental'
 import { CustomerRepository } from '../../../infra/database/repositories/ICustomerRepository'
 import { VehicleRepository } from '../../../infra/database/repositories/IVehicleRepository'
 import { RentalRepository } from '../../../infra/database/repositories/IRentalRepository'
-import { VehicleType } from '@prisma/client'
 import {
   CalculateRentalValueRequest,
   calculateRentalValue,
 } from '../../utils/calculateRentalValue'
+import { Vehicle, VehicleType } from '../../../app/models/Vehicle'
 
 interface CreateRentalServiceResponse {
   rental: RentalProps
@@ -59,14 +59,20 @@ export class CreateRentalService {
       throw new AppError('Invalid rental date', StatusCodes.BAD_REQUEST)
     }
 
-    if (customer.driverLicense === 'A' && vehicle.type !== 'MOTORCYCLE') {
+    if (
+      customer.driverLicense === 'A' &&
+      vehicle.type !== VehicleType.MOTORCYCLE
+    ) {
       throw new AppError(
         "People with driver license 'A' can rent motorcycles only",
         StatusCodes.BAD_REQUEST,
       )
     }
 
-    if (customer.driverLicense === 'B' && vehicle.type === 'MOTORCYCLE') {
+    if (
+      customer.driverLicense === 'B' &&
+      vehicle.type === VehicleType.MOTORCYCLE
+    ) {
       throw new AppError(
         "People with driver license 'B' can rent cars only",
         StatusCodes.BAD_REQUEST,
@@ -83,13 +89,9 @@ export class CreateRentalService {
     this.customerRepository.updateHasRentById(customerId, true)
     this.vehicleRepository.updateRentedStatusById(vehicleId, true)
 
-    // só para parar de dar erro
-    const vehicleIncreasePorcentage: number =
-      vehicle.type === VehicleType.CAR ? 0.5 : 0.1
-
     const dataToCalculate: CalculateRentalValueRequest = {
       dailyRental: vehicle.dailyRental,
-      increasePorcentage: vehicleIncreasePorcentage,
+      increasePorcentage: Vehicle.porcentageByVehicleType(vehicle.type),
       rentalDate,
       devolutionDate,
     }

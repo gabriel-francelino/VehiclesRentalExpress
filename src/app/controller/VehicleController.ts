@@ -9,6 +9,7 @@ import { GetByIdVehicleService } from '../services/vehicle/GetByIdVehicleService
 import { GetAvailableVehicleService } from '../services/vehicle/GetAvailableVehicleService'
 import { GetByPlateVehicleService } from '../services/vehicle/GetByPlateVehicleService'
 import { DeleteVehicleService } from '../services/vehicle/DeleteVehicleService'
+import { VehicleType } from '../models/Vehicle'
 
 class VehicleController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -16,7 +17,7 @@ class VehicleController {
       const createVehicleInBodySchema = z.object({
         model: z.string(),
         color: z.string(),
-        type: z.enum(['CAR', 'MOTORCYCLE']),
+        type: z.enum([VehicleType.CAR, VehicleType.MOTORCYCLE]),
         plate: z.string(),
         dailyRental: z.number().positive(),
       })
@@ -38,7 +39,6 @@ class VehicleController {
       })
 
       res.status(StatusCodes.CREATED).send(vehicle)
-      // next();
     } catch (error) {
       if (error instanceof ZodError) {
         res
@@ -58,7 +58,6 @@ class VehicleController {
 
       const availableVehicles = await getAvailableVehicleService.execute()
       res.status(StatusCodes.OK).send(availableVehicles)
-      // next();
     } catch (error) {
       next(error)
     }
@@ -71,7 +70,6 @@ class VehicleController {
 
       const vehicles = await getAllVehicleService.execute()
       res.status(StatusCodes.OK).send(vehicles)
-      // next();
     } catch (error) {
       next(error)
     }
@@ -90,7 +88,6 @@ class VehicleController {
 
       const vehicle = await getByIdVehicleService.execute({ id })
       res.status(StatusCodes.OK).send(vehicle)
-      // next();
     } catch (error) {
       if (error instanceof ZodError) {
         res
@@ -116,7 +113,6 @@ class VehicleController {
 
       const vehicle = await getByPlateVehicleService.execute({ plate })
       res.status(StatusCodes.OK).send(vehicle)
-      // next();
     } catch (error) {
       if (error instanceof ZodError) {
         res
@@ -132,11 +128,10 @@ class VehicleController {
       const updateVehicleInParamsSchema = z.object({
         id: z.string().uuid(),
       })
-
       const updateVehicleInBodySchema = z.object({
         model: z.string(),
         color: z.string(),
-        type: z.enum(['CAR', 'MOTORCYCLE']),
+        type: z.enum([VehicleType.CAR, VehicleType.MOTORCYCLE]),
         plate: z.string(),
         dailyRental: z.number().positive(),
       })
@@ -180,7 +175,6 @@ class VehicleController {
 
       deleteVehicleService.execute(id)
       res.status(StatusCodes.NO_CONTENT).send()
-      // next();
     } catch (error) {
       next(error)
     }

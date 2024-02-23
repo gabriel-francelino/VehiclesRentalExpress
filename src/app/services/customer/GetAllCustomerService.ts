@@ -1,4 +1,4 @@
-import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
+import { CustomerRepository } from '../../../infra/database/repositories/ICustomerRepository'
 import { CustomerProps } from '../../models/Customer'
 
 interface GetAllCustomerServiceResponse {
