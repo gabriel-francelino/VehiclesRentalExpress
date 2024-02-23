@@ -4,6 +4,7 @@ export interface CustomerDTO {
   id?: string
   cpf: string
   name: string
-  dateOfBirth: Date
+  email: string
+  dateOfBirth: string
   driverLicense: DriverLicense
 }

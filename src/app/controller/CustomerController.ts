@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { ZodError, z } from 'zod'
+import path from 'path'
+import handlebars from 'handlebars'
+import { createTemplate } from '../../helpers/TemplateHelper'
 import { PrismaCustomerRepository } from '../../infra/database/repositories/prisma/customerRepository'
 import { CreateCustomerService } from '../services/customer/CreateCustomerService'
 import { GetAllCustomerService } from '../services/customer/GetAllCustomerService'
@@ -8,6 +11,7 @@ import { GetByIdCustomerService } from '../services/customer/GetByIdCustomerServ
 import { GetByCpfCustomerService } from '../services/customer/GetByCpfCustomerService'
 import { UpdateCustomerService } from '../services/customer/UpdateCustomerService'
 import { DeleteCustomerService } from '../services/customer/DeleteCustomerService'
+import { CustomerDTO } from '../dtos/CustomerDTO'
 
 class CustomerController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -82,7 +86,38 @@ class CustomerController {
         customerRepository,
       )
       const customer = await getByIdCustomerService.execute({ id })
-      res.status(StatusCodes.OK).send(customer)
+
+      const customerDTO: CustomerDTO = {
+        id: customer.customer.id,
+        cpf: customer.customer.cpf,
+        name: customer.customer.name,
+        email: customer.customer.email,
+        dateOfBirth: customer.customer.dateOfBirth.toLocaleString('pt-br'),
+        driverLicense: customer.customer.driverLicense,
+      }
+      // res.status(StatusCodes.OK).send(customer)
+      res.status(StatusCodes.OK).format({
+        'application/json': () => {
+          res.json(customer)
+        },
+        'text/html': () => {
+          const templatePath = createTemplate(
+            path.resolve(
+              __dirname,
+              '..',
+              '..',
+              'infra',
+              'templates',
+              'handlebars',
+              'Customer.hbs',
+            ),
+          )
+
+          const template = handlebars.compile(templatePath)
+
+          res.send(template(customerDTO))
+        },
+      })
     } catch (error) {
       if (error instanceof ZodError) {
         res
