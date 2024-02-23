@@ -2,6 +2,9 @@ import { PrismaVehicleRepository } from '../../infra/database/repositories/prism
 import { NextFunction, Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { ZodError, z } from 'zod'
+import path from 'path'
+import handlebars from 'handlebars'
+import { createTemplate } from '../../helpers/TemplateHelper'
 import { CreateVehicleService } from '../services/vehicle/CreateVehicleService'
 import { GetAllVehicleService } from '../services/vehicle/GetAllVehicleService'
 import { UpdateVehicleService } from '../services/vehicle/UpdateVehicleService'
@@ -10,6 +13,7 @@ import { GetAvailableVehicleService } from '../services/vehicle/GetAvailableVehi
 import { GetByPlateVehicleService } from '../services/vehicle/GetByPlateVehicleService'
 import { DeleteVehicleService } from '../services/vehicle/DeleteVehicleService'
 import { VehicleType } from '../models/Vehicle'
+import { VehicleDTO } from '../dtos/VehicleDTO'
 
 class VehicleController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -87,7 +91,39 @@ class VehicleController {
       const getByIdVehicleService = new GetByIdVehicleService(vehicleRepository)
 
       const vehicle = await getByIdVehicleService.execute({ id })
-      res.status(StatusCodes.OK).send(vehicle)
+
+      const vehicleDTO: VehicleDTO = {
+        id: vehicle.vehicle.id,
+        model: vehicle.vehicle.model,
+        color: vehicle.vehicle.color,
+        type: vehicle.vehicle.type,
+        plate: vehicle.vehicle.plate,
+        dailyRental: vehicle.vehicle.dailyRental,
+      }
+
+      // res.status(StatusCodes.OK).send(vehicle)
+      res.status(StatusCodes.OK).format({
+        'application/json': () => {
+          res.json(vehicle)
+        },
+        'text/html': () => {
+          const templatePath = createTemplate(
+            path.resolve(
+              __dirname,
+              '..',
+              '..',
+              'infra',
+              'templates',
+              'handlebars',
+              'Vehicle.hbs',
+            ),
+          )
+
+          const template = handlebars.compile(templatePath)
+
+          res.send(template(vehicleDTO))
+        },
+      })
     } catch (error) {
       if (error instanceof ZodError) {
         res
