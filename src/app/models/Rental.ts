@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid'
 
-import { Replace } from '@/helpers/replace'
+import { Replace } from '../../helpers/replace'
 
 export interface RentalProps {
   id?: string

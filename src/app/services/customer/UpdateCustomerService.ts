@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes'
 import { AppError } from '../../error/AppError'
 import { CustomerProps, DriverLicense } from '../../models/Customer'
-import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
+import { CustomerRepository } from '../../../infra/database/repositories/ICustomerRepository'
 
 interface UpdateCustomerServiceRequest {
   id: string

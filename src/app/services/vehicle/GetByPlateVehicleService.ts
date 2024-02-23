@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes'
 import { AppError } from '../../error/AppError'
 import { VehicleProps } from '../../models/Vehicle'
-import { VehicleRepository } from '@/infra/database/repositories/IVehicleRepository'
+import { VehicleRepository } from '../../../infra/database/repositories/IVehicleRepository'
 
 interface GetByPlateVehicleServiceRequest {
   plate: string

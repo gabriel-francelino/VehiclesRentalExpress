@@ -1,4 +1,4 @@
-import { Replace } from '@/helpers/replace'
+import { Replace } from '../../helpers/replace'
 import { v4 as uuid } from 'uuid'
 
 export type DriverLicense = 'A' | 'B' | 'C' | 'D' | 'E' | 'AB'
