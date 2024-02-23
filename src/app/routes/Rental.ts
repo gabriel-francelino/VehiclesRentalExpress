@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { rentalController } from '../controller/RentalController'
+import { rentalController } from '@/app/controller/RentalController'
 import { infoRequestMiddleware } from './/middlewares/InfoRequestMiddleware'
 import { errorHandlerMiddleware } from './middlewares/ErrorHandlerMiddleware'
 

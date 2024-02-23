@@ -1,4 +1,4 @@
-import { RentalRepository } from '../../../infra/database/repositories/IRentalRepository'
+import { RentalRepository } from '@/infra/database/repositories/IRentalRepository'
 import { RentalProps } from '../../models/Rental'
 
 interface GetAllRentalServiceResponse {

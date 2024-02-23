@@ -4,18 +4,18 @@ import { CreateRentalService } from '../services/rental/CreateRentalService'
 import { DevolutionRentalService } from '../services/rental/DevolutionRentalService'
 import { GetAllRentalsByCustomerService } from '../services/rental/GetAllRentalsByCustomerService'
 import { ZodError, z } from 'zod'
-import { PrismaRentalRepository } from '../../infra/database/repositories/prisma/rentalRepository'
-import { PrismaCustomerRepository } from '../../infra/database/repositories/prisma/customerRepository'
-import { PrismaVehicleRepository } from '../../infra/database/repositories/prisma/vehicleRepository'
+import { PrismaRentalRepository } from '@/infra/database/repositories/prisma/rentalRepository'
+import { PrismaCustomerRepository } from '@/infra/database/repositories/prisma/customerRepository'
+import { PrismaVehicleRepository } from '@/infra/database/repositories/prisma/vehicleRepository'
 import { GetAllRentalService } from '../services/rental/GetAllRentalService'
 import { GenerateRentalInvoiceService } from '../services/rental/GenerateRentalInvoiceService'
 
 class RentalController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const createRentalInBodySchema = z.object({
-        customerId: z.string().uuid(),
-        vehicleId: z.string().uuid(),
+      const createrentalInBodySchema = z.object({
+        customerId: z.string(),
+        vehicleId: z.string(),
         devolutionDate: z.string().refine(
           (dateString) => {
             return !isNaN(Date.parse(dateString))
@@ -28,10 +28,11 @@ class RentalController {
           },
           { message: 'Invalid date format.' },
         ),
+        rentalValue: z.number(),
       })
 
-      const { customerId, vehicleId, rentalDate, devolutionDate } =
-        createRentalInBodySchema.parse(req.body)
+      const { customerId, vehicleId, rentalDate, devolutionDate, rentalValue } =
+        createrentalInBodySchema.parse(req.body)
 
       const rentalRepository = new PrismaRentalRepository()
       const customerRepository = new PrismaCustomerRepository()
@@ -47,6 +48,8 @@ class RentalController {
         vehicleId,
         rentalDate: new Date(rentalDate),
         devolutionDate: new Date(devolutionDate),
+        rentalValue,
+        createdAt: new Date(),
       })
 
       res.status(StatusCodes.CREATED).send(rental)
@@ -63,7 +66,7 @@ class RentalController {
   async devolution(req: Request, res: Response, next: NextFunction) {
     try {
       const devolutionInParamsSchema = z.object({
-        id: z.string().uuid(),
+        id: z.string(),
       })
 
       const { id } = devolutionInParamsSchema.parse(req.params)
@@ -93,7 +96,7 @@ class RentalController {
   async generateInvoice(req: Request, res: Response, next: NextFunction) {
     try {
       const devolutionInParamsSchema = z.object({
-        id: z.string().uuid(),
+        id: z.string(),
       })
 
       const { id } = devolutionInParamsSchema.parse(req.params)
@@ -123,7 +126,7 @@ class RentalController {
   async getAllByCustomer(req: Request, res: Response, next: NextFunction) {
     try {
       const getAllRentalByCustomerInParamsSchema = z.object({
-        customerId: z.string().uuid(),
+        customerId: z.string(),
       })
 
       const { customerId } = getAllRentalByCustomerInParamsSchema.parse(

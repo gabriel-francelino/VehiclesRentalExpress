@@ -1,24 +1,17 @@
 import { StatusCodes } from 'http-status-codes'
 import { AppError } from '../../error/AppError'
 import { Rental, RentalProps } from '../../models/Rental'
-import { CustomerRepository } from '../../../infra/database/repositories/ICustomerRepository'
-import { VehicleRepository } from '../../../infra/database/repositories/IVehicleRepository'
-import { RentalRepository } from '../../../infra/database/repositories/IRentalRepository'
+import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
+import { VehicleRepository } from '@/infra/database/repositories/IVehicleRepository'
+import { RentalRepository } from '@/infra/database/repositories/IRentalRepository'
 import { VehicleType } from '@prisma/client'
 import {
   CalculateRentalValueRequest,
   calculateRentalValue,
-} from '../../utils/calculateRentalValue'
+} from '@/app/utils/calculateRentalValue'
 
 interface CreateRentalServiceResponse {
-  rental: RentalProps
-}
-
-interface CreateRentalServiceRequest {
-  customerId: string
-  vehicleId: string
-  rentalDate: Date
-  devolutionDate: Date
+  rental: Rental
 }
 
 export class CreateRentalService {
@@ -28,9 +21,7 @@ export class CreateRentalService {
     private rentalRepository: RentalRepository,
   ) {}
 
-  async execute(
-    rentalData: CreateRentalServiceRequest,
-  ): Promise<CreateRentalServiceResponse> {
+  async execute(rentalData: RentalProps): Promise<CreateRentalServiceResponse> {
     const { customerId, vehicleId, rentalDate, devolutionDate } = rentalData
 
     const customer = await this.customerRepository.findById(customerId)
@@ -59,20 +50,28 @@ export class CreateRentalService {
       throw new AppError('Invalid rental date', StatusCodes.BAD_REQUEST)
     }
 
-    if (customer.driverLicense === 'A' && vehicle.type !== 'MOTORCYCLE') {
+    if (
+      customer.driverLicense === 'A' &&
+      vehicle.type !== VehicleType.MOTORCYCLE
+    ) {
       throw new AppError(
         "People with driver license 'A' can rent motorcycles only",
         StatusCodes.BAD_REQUEST,
       )
     }
 
-    if (customer.driverLicense === 'B' && vehicle.type === 'MOTORCYCLE') {
+    if (
+      customer.driverLicense === 'B' &&
+      vehicle.type === VehicleType.MOTORCYCLE
+    ) {
       throw new AppError(
         "People with driver license 'B' can rent cars only",
         StatusCodes.BAD_REQUEST,
       )
     }
 
+    customer.hasRent = true
+    vehicle.isRented = true
     const rent = new Rental({
       customerId,
       vehicleId,
@@ -80,23 +79,18 @@ export class CreateRentalService {
       devolutionDate,
     })
 
-    this.customerRepository.updateHasRentById(customerId, true)
-    this.vehicleRepository.updateRentedStatusById(vehicleId, true)
-
-    // só para parar de dar erro
-    const vehicleIncreasePorcentage: number =
-      vehicle.type === VehicleType.CAR ? 0.5 : 0.1
-
     const dataToCalculate: CalculateRentalValueRequest = {
       dailyRental: vehicle.dailyRental,
-      increasePorcentage: vehicleIncreasePorcentage,
+      increasePorcentage: vehicle.increasePorcentage,
       rentalDate,
       devolutionDate,
     }
 
     rent.rentalValue = calculateRentalValue(dataToCalculate)
 
-    const rental: RentalProps = await this.rentalRepository.create(rent)
+    const rental = new Rental(rent)
+
+    await this.rentalRepository.create(rent)
 
     return {
       rental,

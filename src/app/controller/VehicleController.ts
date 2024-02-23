@@ -8,7 +8,6 @@ import { UpdateVehicleService } from '../services/vehicle/UpdateVehicleService'
 import { GetByIdVehicleService } from '../services/vehicle/GetByIdVehicleService'
 import { GetAvailableVehicleService } from '../services/vehicle/GetAvailableVehicleService'
 import { GetByPlateVehicleService } from '../services/vehicle/GetByPlateVehicleService'
-import { DeleteVehicleService } from '../services/vehicle/DeleteVehicleService'
 
 class VehicleController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -80,7 +79,7 @@ class VehicleController {
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const getByIdVehicleInParamsSchema = z.object({
-        id: z.string().uuid(),
+        id: z.string(),
       })
 
       const { id } = getByIdVehicleInParamsSchema.parse(req.params)
@@ -130,7 +129,7 @@ class VehicleController {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const updateVehicleInParamsSchema = z.object({
-        id: z.string().uuid(),
+        id: z.string(),
       })
 
       const updateVehicleInBodySchema = z.object({
@@ -167,24 +166,16 @@ class VehicleController {
     }
   }
 
-  delete(req: Request, res: Response, next: NextFunction) {
-    try {
-      const deleteVehicleInParamsSchema = z.object({
-        id: z.string().uuid(),
-      })
-
-      const { id } = deleteVehicleInParamsSchema.parse(req.params)
-
-      const vehicleRepository = new PrismaVehicleRepository()
-      const deleteVehicleService = new DeleteVehicleService(vehicleRepository)
-
-      deleteVehicleService.execute(id)
-      res.status(StatusCodes.NO_CONTENT).send()
-      // next();
-    } catch (error) {
-      next(error)
-    }
-  }
+  //   delete(req: Request, res: Response, next: NextFunction) {
+  //     try {
+  //       const { id } = req.params
+  //       deleteVehicleService.execute(id)
+  //       res.status(StatusCodes.NO_CONTENT).send()
+  //       // next();
+  //     } catch (error) {
+  //       next(error)
+  //     }
+  //   }
 }
 
 const vehicleController = new VehicleController()

@@ -1,4 +1,4 @@
-import { VehicleRepository } from '../../../infra/database/repositories/IVehicleRepository'
+import { VehicleRepository } from '@/infra/database/repositories/IVehicleRepository'
 import { VehicleProps } from '../../models/Vehicle'
 
 interface GetAllVehicleServiceResponse {

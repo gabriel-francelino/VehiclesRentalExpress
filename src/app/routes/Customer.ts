@@ -12,7 +12,6 @@ customerRoutes.get('/customers/:id', customerController.getById)
 customerRoutes.get('/customers', customerController.getAll)
 customerRoutes.get('/customers', customerController.getByCpf)
 customerRoutes.put('/customers/:id', customerController.update)
-customerRoutes.delete('/customers/:id', customerController.delete)
 
 customerRoutes.use(errorHandlerMiddleware.execute)
 

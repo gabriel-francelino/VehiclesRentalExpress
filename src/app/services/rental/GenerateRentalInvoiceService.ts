@@ -1,9 +1,9 @@
 import { StatusCodes } from 'http-status-codes'
 import { AppError } from '../../error/AppError'
 import { Invoice } from '../../models/Rental'
-import { RentalRepository } from '../../../infra/database/repositories/IRentalRepository'
-import { CustomerRepository } from '../../../infra/database/repositories/ICustomerRepository'
-import { VehicleRepository } from '../../../infra/database/repositories/IVehicleRepository'
+import { RentalRepository } from '@/infra/database/repositories/IRentalRepository'
+import { CustomerRepository } from '@/infra/database/repositories/ICustomerRepository'
+import { VehicleRepository } from '@/infra/database/repositories/IVehicleRepository'
 
 interface GenerateRentalInvoiceServiceRequest {
   id: string
