@@ -72,7 +72,7 @@ class CustomerController {
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const getByIdCustomerInParamsSchema = z.object({
-        id: z.string(),
+        id: z.string().uuid(),
       })
 
       const { id } = getByIdCustomerInParamsSchema.parse(req.params)
@@ -129,7 +129,7 @@ class CustomerController {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const updateCustomerInParamsSchema = z.object({
-        id: z.string(),
+        id: z.string().uuid(),
       })
 
       const updateCustomerInBodySchema = z.object({
@@ -169,7 +169,7 @@ class CustomerController {
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
       const deleteCustomerInParamsSchema = z.object({
-        id: z.string(),
+        id: z.string().uuid(),
       })
 
       const { id } = deleteCustomerInParamsSchema.parse(req.params)

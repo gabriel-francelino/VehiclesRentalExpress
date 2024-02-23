@@ -80,7 +80,7 @@ class VehicleController {
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const getByIdVehicleInParamsSchema = z.object({
-        id: z.string(),
+        id: z.string().uuid(),
       })
 
       const { id } = getByIdVehicleInParamsSchema.parse(req.params)
@@ -130,7 +130,7 @@ class VehicleController {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const updateVehicleInParamsSchema = z.object({
-        id: z.string(),
+        id: z.string().uuid(),
       })
 
       const updateVehicleInBodySchema = z.object({
@@ -170,7 +170,7 @@ class VehicleController {
   delete(req: Request, res: Response, next: NextFunction) {
     try {
       const deleteVehicleInParamsSchema = z.object({
-        id: z.string(),
+        id: z.string().uuid(),
       })
 
       const { id } = deleteVehicleInParamsSchema.parse(req.params)
