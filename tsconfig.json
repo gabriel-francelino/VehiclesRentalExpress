@@ -3,9 +3,9 @@
     "target": "es2020",                                  
     "module": "commonjs",                                
     "baseUrl": ".",                                  
-    "paths": {
-      "@/*": ["src/*"]
-    },                                       
+    // "paths": {
+    //   "@/*": ["src/*"]
+    // },                                       
     "esModuleInterop": true,                             
     "forceConsistentCasingInFileNames": true,            
     "skipLibCheck": true,
