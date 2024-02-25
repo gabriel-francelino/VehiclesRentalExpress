@@ -19,10 +19,10 @@ class VehicleController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
       const createVehicleInBodySchema = z.object({
-        model: z.string(),
-        color: z.string(),
+        model: z.string().min(3),
+        color: z.string().min(3),
         type: z.enum([VehicleType.CAR, VehicleType.MOTORCYCLE]),
-        plate: z.string(),
+        plate: z.string().min(8).max(8),
         dailyRental: z.number().positive(),
       })
 
@@ -137,7 +137,7 @@ class VehicleController {
   async getByPlate(req: Request, res: Response, next: NextFunction) {
     try {
       const getByPlateVehicleInParamsSchema = z.object({
-        plate: z.string(),
+        plate: z.string().min(8).max(8),
       })
 
       const { plate } = getByPlateVehicleInParamsSchema.parse(req.body)
@@ -165,10 +165,10 @@ class VehicleController {
         id: z.string().uuid(),
       })
       const updateVehicleInBodySchema = z.object({
-        model: z.string(),
-        color: z.string(),
+        model: z.string().min(3),
+        color: z.string().min(3),
         type: z.enum([VehicleType.CAR, VehicleType.MOTORCYCLE]),
-        plate: z.string(),
+        plate: z.string().min(8).max(8),
         dailyRental: z.number().positive(),
       })
 

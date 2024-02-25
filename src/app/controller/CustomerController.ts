@@ -17,8 +17,8 @@ class CustomerController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
       const createCustomerInBodySchema = z.object({
-        cpf: z.string(),
-        name: z.string(),
+        cpf: z.string().min(11),
+        name: z.string().min(3),
         email: z.string().email(),
         dateOfBirth: z.string().refine(
           (dateString) => {
@@ -131,8 +131,8 @@ class CustomerController {
   async getByCpf(req: Request, res: Response, next: NextFunction) {
     try {
       const getByCpfCustomerInQuerySchema = z.object({
-        cpf: z.string(),
-        name: z.string(),
+        cpf: z.string().min(11),
+        name: z.string().min(3),
         email: z.string().email(),
         dateOfBirth: z.string().refine(
           (dateString) => {
@@ -168,8 +168,8 @@ class CustomerController {
       })
 
       const updateCustomerInBodySchema = z.object({
-        cpf: z.string(),
-        name: z.string(),
+        cpf: z.string().min(11).max(11),
+        name: z.string().min(3),
         email: z.string().email(),
         driverLicense: z.enum(['A', 'B', 'C', 'D', 'E', 'AB']),
       })
