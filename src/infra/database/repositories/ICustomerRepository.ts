@@ -1,7 +1,7 @@
 import { CustomerProps } from '../../../app/models/Customer'
 
 export interface CustomerRepository {
-  findAll(): Promise<CustomerProps[]>
+  findMany(page: number, pageSize: number): Promise<CustomerProps[]>
   findByCpf(cpf: string): Promise<CustomerProps | null>
   findById(id: string): Promise<CustomerProps | null>
   updateHasRentById(id: string, hasRent: boolean): void

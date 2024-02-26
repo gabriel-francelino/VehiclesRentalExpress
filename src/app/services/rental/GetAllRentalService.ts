@@ -9,7 +9,7 @@ export class GetAllRentalService {
   constructor(private rentalRepository: RentalRepository) {}
 
   async execute(): Promise<GetAllRentalServiceResponse> {
-    const rentals = await this.rentalRepository.findAll()
+    const rentals = await this.rentalRepository.findMany()
 
     return {
       rentals,

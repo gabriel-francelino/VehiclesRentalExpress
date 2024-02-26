@@ -1,7 +1,7 @@
-import { RentalProps } from '@/app/models/Rental'
+import { RentalProps } from 'src/app/models/Rental'
 
 export interface RentalRepository {
-  findAll(): Promise<RentalProps[] | []>
+  findMany(): Promise<RentalProps[] | []>
   findById(id: string): Promise<RentalProps | null>
   findRentalsByCustomerId(id: string): Promise<RentalProps[]>
   updateDevolutionById(id: string, devolutionDate: Date): void

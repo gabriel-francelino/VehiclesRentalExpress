@@ -3,31 +3,43 @@ import { Customer } from '@prisma/client'
 export class InMemoryCustomerRepository {
   private customers: Customer[] = []
 
-  create(customer: Customer): Customer {
+  async create(customer: Customer): Promise<Customer> {
     this.customers.push(customer)
 
     return customer
   }
 
-  findAll(): Customer[] {
+  async findMany(): Promise<Customer[]> {
     return this.customers
   }
 
-  findById(id: string): Customer | undefined {
-    return this.customers.find((customer) => customer.id === id)
+  async findById(id: string): Promise<Customer | null> {
+    const customer = this.customers.find((customer) => customer.id === id)
+
+    if (!customer) {
+      return null
+    }
+
+    return customer
   }
 
-  findByCpf(cpf: string): Customer | undefined {
-    return this.customers.find((customer) => customer.cpf === cpf)
+  async findByCpf(cpf: string): Promise<Customer | null> {
+    const customer = this.customers.find((customer) => customer.cpf === cpf)
+
+    if (!customer) {
+      return null
+    }
+
+    return customer
   }
 
-  update(updatedCustomer: Customer): Customer | undefined {
+  async update(updatedCustomer: Customer): Promise<Customer | null> {
     const index = this.customers.findIndex(
       (customer) => customer.id === updatedCustomer.id,
     )
 
     if (index === -1) {
-      return undefined
+      return null
     }
 
     this.customers[index] = updatedCustomer

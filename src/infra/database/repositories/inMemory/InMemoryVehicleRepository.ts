@@ -3,29 +3,44 @@ import { Vehicle } from '@prisma/client'
 export class InMemoryVehicleRepository {
   private vehicle: Vehicle[] = []
 
-  create(vehicle: Vehicle): Vehicle {
+  async create(vehicle: Vehicle): Promise<Vehicle> {
     this.vehicle.push(vehicle)
+
     return vehicle
   }
 
-  getAll(): Vehicle[] {
-    return this.vehicle
+  async findMany(page: number, pageSize: number): Promise<Vehicle[]> {
+    const vehicle = this.vehicle.slice((page - 1) * pageSize, page * pageSize)
+
+    return vehicle
   }
 
-  getById(id: string): Vehicle | undefined {
-    return this.vehicle.find((vehicle) => vehicle.id === id)
+  async findById(id: string): Promise<Vehicle | null> {
+    const vehicle = this.vehicle.find((vehicle) => vehicle.id === id)
+
+    if (!vehicle) {
+      return null
+    }
+
+    return vehicle
   }
 
-  getByPlate(plate: string): Vehicle | undefined {
-    return this.vehicle.find((vehicle) => vehicle.plate === plate)
+  async findByPlate(plate: string): Promise<Vehicle | null> {
+    const vehicle = this.vehicle.find((vehicle) => vehicle.plate === plate)
+
+    if (!vehicle) {
+      return null
+    }
+
+    return vehicle
   }
 
-  update(vehicle: Vehicle): Vehicle | undefined {
+  async update(vehicle: Vehicle): Promise<Vehicle | null> {
     const vehicleIndex = this.vehicle.findIndex(
       (vehicleDB) => vehicleDB.id === vehicle.id,
     )
     if (vehicleIndex === -1) {
-      return undefined
+      return null
     }
     this.vehicle[vehicleIndex] = vehicle
     return this.vehicle[vehicleIndex]

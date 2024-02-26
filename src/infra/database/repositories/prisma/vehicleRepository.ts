@@ -4,8 +4,11 @@ import { Vehicle, VehicleProps } from '../../../../app/models/Vehicle'
 import { PrismaVehicleMapper } from './mappers/prismaVehicleMapper'
 
 export class PrismaVehicleRepository implements VehicleRepository {
-  async findAll(): Promise<Vehicle[] | []> {
-    const vehicleData = await prisma.vehicle.findMany()
+  async findMany(page: number, pageSize: number): Promise<Vehicle[] | []> {
+    const vehicleData = await prisma.vehicle.findMany({
+      take: pageSize,
+      skip: (page - 1) * pageSize,
+    })
 
     const vehicles = vehicleData.map((item) => {
       return PrismaVehicleMapper.toDomainProps(item) as Vehicle

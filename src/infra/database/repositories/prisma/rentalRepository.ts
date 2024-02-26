@@ -4,7 +4,7 @@ import { Rental, RentalProps } from '../../../../app/models/Rental'
 import { PrismaRentalMapper } from './mappers/prismaRentalMapper'
 
 export class PrismaRentalRepository implements RentalRepository {
-  async findAll(): Promise<Rental[] | []> {
+  async findMany(): Promise<Rental[] | []> {
     const rentalData = await prisma.rental.findMany()
 
     const rentals = rentalData.map((item) => {

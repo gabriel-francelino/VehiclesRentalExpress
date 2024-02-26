@@ -4,8 +4,11 @@ import { Customer, CustomerProps } from '../../../../app/models/Customer'
 import { PrismaCustomerMapper } from './mappers/prismaCustomerMapper'
 
 export class PrismaCustomerRepository implements CustomerRepository {
-  async findAll(): Promise<Customer[]> {
-    const customerData = await prisma.customer.findMany()
+  async findMany(page: number, pageSize: number): Promise<Customer[]> {
+    const customerData = await prisma.customer.findMany({
+      take: pageSize,
+      skip: (page - 1) * pageSize,
+    })
 
     const customer = customerData.map((item) => {
       return PrismaCustomerMapper.toDomainProps(item) as Customer
