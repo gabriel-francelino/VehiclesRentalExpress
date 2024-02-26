@@ -1,10 +1,13 @@
 import { PrismaClient } from '@prisma/client'
 import { vehicleSeed, customerSeed } from './seeds'
+import { env } from 'src/env'
 const prisma = new PrismaClient()
 
 async function main() {
-  await vehicleSeed()
-  await customerSeed()
+  if (env.NODE_ENV !== 'production') {
+    await vehicleSeed()
+    await customerSeed()
+  }
 }
 
 main()
