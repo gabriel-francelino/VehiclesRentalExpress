@@ -69,10 +69,17 @@ class VehicleController {
 
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
+      const getAllQuerySchema = z.object({
+        page: z.coerce.number().min(1).default(1),
+        pageSize: z.coerce.number().min(1).default(10),
+      })
+
+      const { page, pageSize } = getAllQuerySchema.parse(req.query)
+
       const vehicleRepository = new PrismaVehicleRepository()
       const getAllVehicleService = new GetAllVehicleService(vehicleRepository)
 
-      const vehicles = await getAllVehicleService.execute()
+      const vehicles = await getAllVehicleService.execute({ page, pageSize })
       res.status(StatusCodes.OK).send(vehicles)
     } catch (error) {
       next(error)

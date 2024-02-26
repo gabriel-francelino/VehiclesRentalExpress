@@ -61,12 +61,19 @@ class CustomerController {
 
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
+      const getAllQuerySchema = z.object({
+        page: z.coerce.number().min(1).default(1),
+        pageSize: z.coerce.number().min(1).default(10),
+      })
+
+      const { page, pageSize } = getAllQuerySchema.parse(req.query)
+
       const customerRepository = new PrismaCustomerRepository()
       const getAllCustomerService = new GetAllCustomerService(
         customerRepository,
       )
 
-      const customers = await getAllCustomerService.execute()
+      const customers = await getAllCustomerService.execute({ page, pageSize })
       res.status(StatusCodes.OK).send(customers)
     } catch (error) {
       next(error)
